@@ -1,0 +1,104 @@
+body {
+    font-family:'Times New Roman', Times, serif;
+    font-weight: 600;
+    margin: 0%;
+}
+
+h1 {
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+tr {
+    border-up: 1px solid black;
+}
+
+#login-container {
+    display: flex;
+    background-color:whitesmoke;
+}
+
+.aesthetic-container {
+    background-color:white;
+    padding: 50px;
+    border-radius: 25px;
+    box-shadow: 0 4px 6px 0 rgba(0,0,0,.2);
+}
+
+#login-button {
+    background-color: rgb(47, 99, 156);
+    box-shadow: 0 4px 6px 0 rgba(0,0,0,.2);
+    font-weight: bold;
+    font-size: medium;
+    border: 0px;
+    color: aliceblue;
+    border-radius: 10px;
+    width: 150px;
+    height: 50px;
+    margin-left: 15%;
+}
+
+#register-button {
+    background-color: rgb(161, 58, 58);
+    box-shadow: 0 4px 6px 0 rgba(0,0,0,.2);
+    font-weight: bold;
+    font-size: medium;
+    border: 0px;
+    color: aliceblue;
+    border-radius: 10px;
+    width: 150px;
+    height: 50px;
+    margin-left: 15%;
+    margin-top: 1%;
+}
+
+#logout-button {
+    background-color: rgb(47, 156, 114);
+    box-shadow: 0 4px 6px 0 rgba(0,0,0,.2);
+    font-weight: bold;
+    font-size: medium;
+    border: 0px;
+    color: aliceblue;
+    border-radius: 10px;
+    width: 150px;
+    height: 50px;
+}
+
+#changeInfoButton {
+    background-color: rgb(156, 109, 47);
+    box-shadow: 0 4px 6px 0 rgba(0,0,0,.2);
+    font-weight: bold;
+    font-size: medium;
+    border: 0px;
+    color: aliceblue;
+    border-radius: 10px;
+    width: 150px;
+    height: 50px;
+    display: inline-block;
+}
+
+#showAllBooksButton {
+    background-color: rgb(170, 104, 192);
+    box-shadow: 0 4px 6px 0 rgba(0,0,0,.2);
+    font-weight: bold;
+    font-size: medium;
+    border: 0px;
+    color: aliceblue;
+    border-radius: 10px;
+    width: 150px;
+    height: 50px;
+}
+
+
+table {
+    align-content: center;
+    align-items: center;
+}
+
+.bold-text {
+    font-weight: 600;
+}
+
+.input-space {
+    margin-right: 20px;
+}

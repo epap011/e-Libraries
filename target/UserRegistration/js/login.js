@@ -4,6 +4,42 @@ $(document).ready(function () {
     console.log("isLoggedIn invoked!");
 });
 
+function xssUnpatchedExample() {
+    let xssInput = document.getElementById("xssInput").value;
+
+    let xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            document.getElementById("xssResponseMessage").innerHTML = xhr.responseText;
+        } else if (xhr.status !== 200) {
+            document.getElementById("xssResponseMessage").innerHTML = "something went wrong!";
+        }
+    };
+
+    xhr.open('POST', 'XSS');
+    xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+    xhr.send(xssInput);
+}
+
+function xssPatchedExample() {
+    let xssInput = document.getElementById("patchesXssInput").value;
+    const obj = {}
+    obj["input"] = xssInput;
+
+    let xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            document.getElementById("patchesXssResponseMessage").innerHTML = xhr.responseText;
+        } else if (xhr.status !== 200) {
+            document.getElementById("patchesXssResponseMessage").innerHTML = "something went wrong!";
+        }
+    };
+
+    xhr.open('POST', 'XSS_PATCH');
+    xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+    xhr.send(JSON.stringify(obj));
+}
+
 function isLoggedIn() {
     let xhr = new XMLHttpRequest();
     xhr.onload = function () {
