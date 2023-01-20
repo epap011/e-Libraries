@@ -1,0 +1,19 @@
+<div class="aesthetic-container">
+  <h1>Welcome to e-Libraries</h1>
+  <form id="myForm" name="myForm">
+    <div class="form-floating mb-3 w-auto">
+      <input type="text" class="form-control" id="username" name="username" required>
+      <label for="username">Username</label>
+      <div> <label id="invalidUsernameMessage"></label> </div>
+    </div>
+
+    <div class="form-floating mb-3 w-auto">
+      <input type="Password" class="form-control" id="loginPassword" name="loginPassword"  required>
+      <label for="loginPassword">Κώδικος</label>
+      <div> <label id="loginMessage"></label> </div>
+    </div>
+
+    <input type="button" id="login-button" value="Login" onclick="login()">
+    <input type="button" id="register-button" value="Register" onclick="window.location='register.html'">
+  </form>
+</div>

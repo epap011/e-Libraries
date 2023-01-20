@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LibPortal</title>
+
+    <meta name="author"      content="Papageorgiou Efthymios">
+    <meta name="description" content="This is a login page for a library">
+    <meta name="keywords"    content="efthymis papageorgiou, library, login">
+    <meta name="viewport"    content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="js/login.js" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div>
+        <br>
+        <label for="xssInput">XSS Vulnerable:</label>
+        <input type="text" id="xssInput" name="xssInput" value="<button onclick='document.body.style.backgroundColor = '>Click Me :)</button>" size="50">
+        <input type="button" id="xssButton" value="Test" onclick="xssUnpatchedExample()">
+        <div id="xssResponseMessage"></div> <br>
+
+        <label for="patchesXssInput">XSS Patched:</label>
+        <input type="text" id="patchesXssInput" name="patchesXssInput" value="<button onclick='document.body.style.backgroundColor = '>Click Me :)</button>" size="50">
+        <input type="button" id="patchesXssButton" value="Test" onclick="xssPatchedExample()">
+        <div id="patchesXssResponseMessage"></div> <br>
+    </div>
+    <div id="login-container">
+        <div id="login-messages"></div>
+        <div id="login-box"></div>
+    </div>
+    <div id="user_info-box">
+        <div class="aesthetic-container">
+            <h1>This is your Home</h1>
+            <input type="button" id="logout-button" value="Logout" onclick="logout()">
+            <input type="button" id="changeInfoButton" value="Show My Info" onclick="getUserInfo()">
+            <input type="button" id="showAllBooksButton" value="Show All Books" onclick="getAllBooks()">
+            <div id="user-info"></div>
+        </div>
+    </div>
+</body>
+</html>
