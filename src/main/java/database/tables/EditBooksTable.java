@@ -68,6 +68,13 @@ public class EditBooksTable {
         return null;
     }
 
+    public void updateBookPages(String isbn, int pages) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+        String update = "UPDATE books SET pages='" + pages + "'" + "WHERE isbn = '" + isbn + "'";
+        stmt.executeUpdate(update);
+    }
+
     public ArrayList<Book> databaseToBooks(String genre) throws SQLException, ClassNotFoundException {
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
