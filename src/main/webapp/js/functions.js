@@ -11,7 +11,7 @@ let studentIDFreeToUse = false;
 let lat;
 let lon;
 
-function sendAjaxPOST() {
+function sendFormData() {
     let myForm   = document.getElementById('myForm');
     let formData = new FormData(myForm);
     let data = {};
@@ -136,7 +136,7 @@ function validateForm() {
         if(!studentIDFreeToUse) return false;
     }
 
-    sendAjaxPOST();
+    sendFormData();
     return true;
 }
 
