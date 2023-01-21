@@ -1,35 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>LibPortal</title>
-
-    <meta name="author"      content="Papageorgiou Efthymios">
-    <meta name="description" content="This is a login page for a library">
-    <meta name="keywords"    content="efthymis papageorgiou, library, login">
+    <meta name="author"      content="Papageorgiou Efthymios | Irodotos Apostolou">
+    <meta name="description" content="This is the homepage of e-Libraries for guests, students, librarians">
+    <meta name="keywords"    content="e-library, homepage">
     <meta name="viewport"    content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
-
-    <link rel="stylesheet" type="text/css" href="css/login.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="js/login.js" defer></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+
 <body>
-    <div id="login-container">
-        <div id="login-messages"></div>
-        <div id="login-box"></div>
-    </div>
-    <div id="user_info-box">
-        <div class="aesthetic-container">
-            <h1>This is your Home</h1>
-            <input type="button" id="logout-button" value="Logout" onclick="logout()">
-            <input type="button" id="changeInfoButton" value="Show My Info" onclick="getUserInfo()">
-            <input type="button" id="showAllBooksButton" value="Show All Books" onclick="getAllBooks()">
-            <div id="user-info"></div>
+    <nav class="navbar fixed-top navbar-expand-md">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">e-Libraries</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item"> <a class="nav-link active" aria-current="page" href="#">Home</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="#">Reservations</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="#">Requests</a> </li>
+                </ul>
+            </div>
+            <div class="dropdown">
+                <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    Login as
+                </a>
+
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item" href="#">Student</a></li>
+                    <li><a class="dropdown-item" href="#">Librarian</a></li>
+                </ul>
+            </div>
         </div>
-    </div>
+    </nav>
+
+    <section id="home-section">
+
+    </section>
+
+    <!-- Footer Section -->
+    <footer id="footer-section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4>Mail me</h4>
+                    <a class="special" href = "mailto: papageorgiou.efthymis@protonmail.com">papageorgiou.efthymis@protonmail.com</a>
+                </div>
+                <div class="col-sm-4">
+                    <h4>Follow me</h4>
+                    <a href="https://github.com/epap011" target="_blank"><img src="resources/images/github.png" alt="github" width="30px" height="30px"></img></a>
+                    <a href="https://www.linkedin.com/in/efthymis-p-3757a921b/" target="_blank"><img src="resources/images/linkedin.png" alt="linkedin" width="30px" height="30px"></img></a>
+                    <a href="https://www.instagram.com/makis.pap01/" target="_blank"><img src="resources/images/facebook.png" alt="facebook" width="30px" height="30px"></img></a>
+                    <a href="https://www.instagram.com/makis.pap01/" target="_blank"><img src="resources/images/instagram.png" alt="instagram" width="30px" height="30px"></img></a>
+                </div>
+                <div class="col-sm-2">
+                    <h4>Share</h4>
+                    <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="small">
+                        <a class="special" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
+                           class="fb-xfbml-parse-ignore">Share on Facebook</a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <p class="copyright-text">Copyright &copy; 2022 All Rights Reserved
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 </body>
-</html>
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>LibPortal</title>-->
+
+<!--    <meta name="author"      content="Papageorgiou Efthymios">-->
+<!--    <meta name="description" content="This is a login page for a library">-->
+<!--    <meta name="keywords"    content="efthymis papageorgiou, library, login">-->
+<!--    <meta name="viewport"    content="width=device-width, initial-scale=1">-->
+<!--    <meta charset="UTF-8">-->
+
+<!--    <link rel="stylesheet" type="text/css" href="css/login.css">-->
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"-->
+<!--          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">-->
+<!--    <script src="js/login.js" defer></script>-->
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+<!--</head>-->
+
+<!--<body>-->
+<!--    <div id="login-container">-->
+<!--        <div id="login-messages"></div>-->
+<!--        <div id="login-box"></div>-->
+<!--    </div>-->
+<!--    <div id="user_info-box">-->
+<!--        <div class="aesthetic-container">-->
+<!--            <h1>This is your Home</h1>-->
+<!--            <input type="button" id="logout-button" value="Logout" onclick="logout()">-->
+<!--            <input type="button" id="changeInfoButton" value="Show My Info" onclick="getUserInfo()">-->
+<!--            <input type="button" id="showAllBooksButton" value="Show All Books" onclick="getAllBooks()">-->
+<!--            <div id="user-info"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</body>-->
+<!--</html>-->
