@@ -294,3 +294,19 @@ audio {
   font-weight: 400;
  }
 }
+
+#divLogin {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  margin-left: 90%;
+  margin-top: 10%;
+  height: 5%;
+  width: 5%;
+  background-color: #FCF7F3;
+  position: absolute;
+  z-index: 1;
+}
