@@ -27,7 +27,7 @@ public class UpdateUser extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         JSON_Converter jsonConverter = new JSON_Converter();
         String json = jsonConverter.getJSONFromAjax(request.getReader());
-
+        System.out.println(json);
         HttpSession session = request.getSession();
         if(session.getAttribute("loggedIn") != null) {
             System.out.println("Session exists, update can happen!");
@@ -41,21 +41,22 @@ public class UpdateUser extends HttpServlet {
                     System.out.println("Username: " + student.getUsername() + " student_type: " + student.getStudent_type());
                     Resources.registeredUsers.replace(student.getUsername(), student);
                     System.out.println("Student Update completed");
-                    est.updateStudent(student);
-                    response.setContentType("application/json; charset=UTF-8");
                     response.setStatus(200);
+                    response.setContentType("application/json; charset=UTF-8");
+                    est.updateStudent(student);
                 } else if (user instanceof Librarian) {
                     EditLibrarianTable elt = new EditLibrarianTable();
                     Librarian librarian = elt.jsonToLibrarian(json);
                     librarian.setUsername(session.getAttribute("loggedIn").toString());
                     Resources.registeredUsers.replace(librarian.getUsername(), librarian);
                     System.out.println("Librarian Update completed");
-                    elt.updateLibrarian(librarian);
-                    response.setContentType("application/json; charset=UTF-8");
                     response.setStatus(200);
+                    response.setContentType("application/json; charset=UTF-8");
+                    elt.updateLibrarian(librarian);
                 }
                 else {
                     System.out.println("no student / no librarian");
+                    response.setStatus(403);
                 }
 
             } catch (ClassNotFoundException | SQLException e) {

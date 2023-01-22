@@ -59,30 +59,31 @@ public class EditStudentsTable {
         String updateCity="UPDATE students SET city='"+student.getCity()+"' WHERE username = '"+username+"'";
         String updateAddress="UPDATE students SET address='"+student.getAddress()+"' WHERE username = '"+username+"'";
         String updateStudentType="UPDATE students SET student_type='"+student.getStudent_type()+"' WHERE username = '"+username+"'";
-        String updateStudentIdFromDate="UPDATE students SET student_id_from_date='"+student.getStudent_id_from_date()+"' WHERE username = '"+username+"'";
-        String updateStudentIdToDate="UPDATE students SET student_id_to_date='"+student.getStudent_id_to_date()+"' WHERE username = '"+username+"'";
         String updateUniversity="UPDATE students SET university='"+student.getUniversity()+"' WHERE username = '"+username+"'";
         String updatePersonalPage="UPDATE students SET personalpage='"+student.getPersonalpage()+"' WHERE username = '"+username+"'";
         String updateTelephone="UPDATE students SET telephone='"+student.getTelephone()+"' WHERE username = '"+username+"'";
         String updateLat="UPDATE students SET lat='"+student.getLat()+"' WHERE username = '"+username+"'";
         String updateLon="UPDATE students SET lon='"+student.getLon()+"' WHERE username = '"+username+"'";
 
-        stmt.executeUpdate(updatePassword);
-        stmt.executeUpdate(updateFirstName);
-        stmt.executeUpdate(updateLastName);
-        stmt.executeUpdate(updateBirthday);
-        stmt.executeUpdate(updateGender);
-        stmt.executeUpdate(updateCountry);
-        stmt.executeUpdate(updateCity);
-        stmt.executeUpdate(updateAddress);
-        stmt.executeUpdate(updateStudentType);
-        stmt.executeUpdate(updateStudentIdFromDate);
-        stmt.executeUpdate(updateStudentIdToDate);
-        stmt.executeUpdate(updateUniversity);
-        stmt.executeUpdate(updatePersonalPage);
-        stmt.executeUpdate(updateTelephone);
-        stmt.executeUpdate(updateLat);
-        stmt.executeUpdate(updateLon);
+        try {
+            stmt.executeUpdate(updatePassword);
+            stmt.executeUpdate(updateFirstName);
+            stmt.executeUpdate(updateLastName);
+            stmt.executeUpdate(updateBirthday);
+            stmt.executeUpdate(updateGender);
+            stmt.executeUpdate(updateCountry);
+            stmt.executeUpdate(updateCity);
+            stmt.executeUpdate(updateAddress);
+            stmt.executeUpdate(updateStudentType);
+            stmt.executeUpdate(updateUniversity);
+            stmt.executeUpdate(updatePersonalPage);
+            stmt.executeUpdate(updateTelephone);
+            stmt.executeUpdate(updateLat);
+            stmt.executeUpdate(updateLon);
+        }catch (Exception e){
+            System.out.println( e.getMessage());
+
+        }
     }
     
     public void printStudentDetails(String username, String password) throws SQLException, ClassNotFoundException{

@@ -1,5 +1,6 @@
 let isStudent = 0;
 let isLibrarian = 0;
+let showInfos = 0;
 $(document).ready(function () {
     showLogin();
     isLoggedIn();
@@ -11,11 +12,11 @@ function isLoggedIn() {
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             console.log("Session exists, you are already logged in");
-            document.getElementById("login-messages").innerHTML = "You are Logged in :)";
+            // document.getElementById("login-messages").innerHTML = "You are Logged in :)";
             showUserInfo();
         } else if (xhr.status !== 200) {
             console.log("Session not exists, you are logged out");
-            document.getElementById("login-messages").innerHTML = "Welcome stranger";
+            // document.getElementById("login-messages").innerHTML = "Welcome stranger";
             hideUserInfo();
         }
     };
@@ -31,13 +32,16 @@ function login() {
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             console.log("Successful Login");
-            document.getElementById("loginMessage").innerHTML   = "Successful Login";
+            document.getElementById("loginMessage").innerHTML   = "Successful Login\n";
             document.getElementById("loginMessage").style.color = "green";
-            document.getElementById("login-messages").innerHTML = "You are Logged in :)";
+            let loggedInUsername = username;
+            document.getElementById("loginMessage").innerHTML += "You are Logged in " + loggedInUsername;
 
-            loggedInUsername = username;
-            loggedInPassword = password;
-            showUserInfo();
+            showInfos = 1;
+            getUserInfo();
+            document.getElementById('dropdownLoginRegister').setAttribute('hidden' , 'true');
+            document.getElementById('divLogin').setAttribute('hidden' , 'true');
+            document.getElementById('divIntoNav').innerHTML += '<button id="buttonLogout" onclick="logout()">Logout</button>'
         } else if (xhr.status !== 200) {
             console.log("Login Failed");
             hideUserInfo();
@@ -56,11 +60,11 @@ function logout(){
 
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            document.getElementById("loginMessage").innerHTML   = "Successful Logout";
             console.log("Successful Logout");
-            document.getElementById("login-messages").innerHTML = "Welcome stranger";
+            document.getElementById('dropdownLoginRegister').removeAttribute('hidden');
+            document.getElementById('buttonLogout').remove();
             hideUserInfo();
-            //showLogin();
+            showInfos = 0;
         } else if (xhr.status !== 200) {
             alert('Request failed. Returned status of ' + xhr.status);
             console.log("Unsuccessful Logout");
@@ -78,11 +82,13 @@ function showLogin() {
 }
 
 function showUserInfo() {
-    $("#user_info-box").show();
+    if (showInfos) {
+        $("#userInfos").show();
+    }
 }
 
 function hideUserInfo() {
-    $("#user_info-box").hide();
+    $("#userInfos").hide();
 }
 
 function getUserInfo() {
@@ -91,7 +97,7 @@ function getUserInfo() {
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             console.log("user info retrieved from server!");
-            document.getElementById("user-info").innerHTML = createUserUpdateForm(JSON.parse(xhr.responseText));
+            document.getElementById("userInfos").innerHTML = createUserUpdateForm(JSON.parse(xhr.responseText));
         } else if (xhr.status !== 200) {
             console.log("user info didnt retrieve from server!");
         }
@@ -149,8 +155,10 @@ function updateUser() {
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             console.log("user updates form sent without error :)");
+            document.getElementById('changes_submit_button').style.backgroundColor = 'green';
         } else if (xhr.status !== 200) {
             console.log("form sent but with error :(");
+            document.getElementById('changes_submit_button').style.backgroundColor = 'red';
         }
     };
 
