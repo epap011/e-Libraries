@@ -19,12 +19,12 @@ function createBookBoxes(books) {
             }
             html += '<article class="article-box">\n' +
                 ' <h4>'+books[curr_book]['title']+'</h4>\n' +
-                ' <p> <b>isbn: </b>'+books[curr_book]['isbn']+'</p>\n' +
-                ' <p> <b>genre: </b> '+books[curr_book]['genre']+'</p>\n' +
-                ' <p> <b>pages: </b> '+books[curr_book]['pages']+'</p>\n' +
-                ' <p> <b>publicationYear: </b> '+books[curr_book]['publicationyear']+'</p>\n' +
-                ' <p> <b>photo: </b> '+books[curr_book]['photo']+'</p>\n' +
-                ' <p> <b>url: </b> '+books[curr_book]['url']+'</p>\n' +
+                ` <img src=${books[curr_book]['photo']} height="300px" width="200px">`+
+                ' <br><b>isbn: </b>'+books[curr_book]['isbn']+'</br>\n' +
+                ' <b>genre: </b> '+books[curr_book]['genre']+'\n' +
+                ' <b>pages: </b> '+books[curr_book]['pages']+'\n' +
+                ' <b>publicationYear: </b> '+books[curr_book]['publicationyear']+'\n' +
+                ` <a href=${books[curr_book]['url']}>LINK</a>`+'\n' +
                 '</article>';
             html += '</div>';
             curr_book++;
