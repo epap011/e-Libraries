@@ -41,7 +41,8 @@ function login() {
             getUserInfo();
             document.getElementById('dropdownLoginRegister').setAttribute('hidden' , 'true');
             document.getElementById('divLogin').setAttribute('hidden' , 'true');
-            document.getElementById('divIntoNav').innerHTML += '<button id="buttonLogout" onclick="logout()">Logout</button>'
+            document.getElementById('divIntoNav').innerHTML += '<button id="buttonLogout" onclick="logout()">Logout</button>';
+            document.getElementById('extra-buttons').innerHTML = "<button>HELP</button>";
         } else if (xhr.status !== 200) {
             console.log("Login Failed");
             hideUserInfo();

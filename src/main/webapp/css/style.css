@@ -122,9 +122,8 @@ tr:nth-child(even) {
   background-color: #FCF7F3;
   height: 100vh;
   width: 100%;
-  padding-top: 40px;
+  padding-top: 15%;
   text-align: center;
-  overflow: auto;
 }
 
 #hello-message-box {
@@ -200,13 +199,11 @@ tr:nth-child(even) {
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  align-content: center;
-  margin-left: 90%;
+  margin-left: 74%;
   margin-top: 10%;
   height: 5%;
   width: 5%;
   background-color: #FCF7F3;
-  position: absolute;
+  position: fixed;
   z-index: 1;
 }
