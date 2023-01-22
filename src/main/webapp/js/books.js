@@ -2,16 +2,21 @@ function createBookBoxes(books) {
     let count = Object.keys(books).length;
     var curr_book = 0;
     let html = '<div className="container-fluid">';
-
-    console.log(typeof(books[curr_book]['title']));
+    var prevGenre = "";
     for (let i = 0; i <= count/4; i++) { //
         html += '<div class="row">';
         for (let j = 0; j < 4; j++) {
             if(count <= curr_book) {
                 continue;
             }
-            console.log(books[curr_book]);
             html += '<div class="col-sm-3">';
+            if(books[curr_book]['genre'] !== prevGenre) {
+                prevGenre = books[curr_book]['genre'];
+                html += '</div></div>';
+                html += '<h2>'+books[curr_book]['genre']+'</h2>';
+                html += '<div class="row">';
+                html += '<div class="col-sm-3">';
+            }
             html += '<article class="article-box">\n' +
                 ' <h4>'+books[curr_book]['title']+'</h4>\n' +
                 ' <h5>'+books[curr_book]['isbn']+'</h5>\n' +
