@@ -140,7 +140,7 @@ tr:nth-child(even) {
 .article-box {
   background-color:#FFFFFF;
   text-align: left;
-  padding: 5px;
+  padding: 2px;
   margin-left: 20px;
   margin-top: 10px;
   border-radius: 12px;
@@ -149,6 +149,15 @@ tr:nth-child(even) {
   height: 90%;
   width: 100%;
   overflow: auto;
+  display: flex;
+}
+
+.fixed{
+  width: 200px;
+}
+.flex-item{
+  flex-grow: 1;
+  margin-left: 8px;
 }
 
 /*---Footer Section---*/
