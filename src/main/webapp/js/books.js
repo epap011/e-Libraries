@@ -15,16 +15,16 @@ function createBookBoxes(books) {
                 html += '</div></div>';
                 html += '<h2>'+books[curr_book]['genre']+'</h2>';
                 html += '<div class="row">';
-                html += '<div class="col-sm-4">';
+                html += '<div class="col-sm-3">';
             }
             html += '<article class="article-box">\n' +
                 ' <h4>'+books[curr_book]['title']+'</h4>\n' +
-                ' <p> isbn: '+books[curr_book]['isbn']+'</p>\n' +
-                ' <p> genre: '+books[curr_book]['genre']+'</p>\n' +
-                ' <p> pages: '+books[curr_book]['pages']+'</p>\n' +
-                ' <p> pubYear: '+books[curr_book]['publicationyear']+'</p>\n' +
-                ' <p> photo: '+books[curr_book]['photo']+'</p>\n' +
-                ' <p> url: '+books[curr_book]['url']+'</p>\n' +
+                ' <p> <b>isbn: </b>'+books[curr_book]['isbn']+'</p>\n' +
+                ' <p> <b>genre: </b> '+books[curr_book]['genre']+'</p>\n' +
+                ' <p> <b>pages: </b> '+books[curr_book]['pages']+'</p>\n' +
+                ' <p> <b>publicationYear: </b> '+books[curr_book]['publicationyear']+'</p>\n' +
+                ' <p> <b>photo: </b> '+books[curr_book]['photo']+'</p>\n' +
+                ' <p> <b>url: </b> '+books[curr_book]['url']+'</p>\n' +
                 '</article>';
             html += '</div>';
             curr_book++;
