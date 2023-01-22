@@ -122,7 +122,16 @@ tr:nth-child(even) {
   background-color: #FCF7F3;
   height: 100vh;
   width: 100%;
+<<<<<<< Updated upstream
   padding-top: 15%;
+=======
+<<<<<<< Updated upstream
+  margin-top: 33px;
+  padding-top: 58px;
+=======
+  padding-top: 15%;
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
   text-align: center;
 }
 
@@ -199,8 +208,15 @@ tr:nth-child(even) {
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
+<<<<<<< Updated upstream
   margin-left: 74%;
   margin-top: 10%;
+=======
+  align-items: center;
+  align-content: center;
+  margin-left: 90%;
+  margin-top: 15%;
+>>>>>>> Stashed changes
   height: 5%;
   width: 5%;
   background-color: #FCF7F3;

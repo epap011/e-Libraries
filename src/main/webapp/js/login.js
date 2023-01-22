@@ -34,6 +34,16 @@ function login() {
             console.log("Successful Login");
             document.getElementById("loginMessage").innerHTML   = "Successful Login\n";
             document.getElementById("loginMessage").style.color = "green";
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+            document.getElementById("login-messages").innerHTML = "You are Logged in :)";
+
+            loggedInUsername = username;
+            loggedInPassword = password;
+            showUserInfo();
+=======
+>>>>>>> Stashed changes
             let loggedInUsername = username;
             document.getElementById("loginMessage").innerHTML += "You are Logged in " + loggedInUsername;
 
@@ -41,8 +51,21 @@ function login() {
             getUserInfo();
             document.getElementById('dropdownLoginRegister').setAttribute('hidden' , 'true');
             document.getElementById('divLogin').setAttribute('hidden' , 'true');
+<<<<<<< Updated upstream
             document.getElementById('divIntoNav').innerHTML += '<button id="buttonLogout" onclick="logout()">Logout</button>';
             document.getElementById('extra-buttons').innerHTML = "<button>HELP</button>";
+=======
+            document.getElementById('divIntoNav').innerHTML += '<button id="buttonLogout" onclick="logout()">Logout</button>'
+            if(isStudent){
+                console.log("show extra buttons student");
+                document.getElementById('extraButtons').innerHTML = "\t\t\t\t<label for=\"genre5\">Genre:</label>\n" +
+                    "\t\t\t\t<input id=\"genre5\" type=\"text\"><br>\n" +
+                    "\t\t\t\t<label for='toYear5'>To Year:</label>\n" +
+                    "\t\t\t\t<input id=\"toYear5\" type=\"text\"> <br>\n" +
+                    "\t\t\t\t<button type=\"button\" onclick=\"getBooksGenreToYear()\" class=\"button\">Get Books with genre/toYear</button> "
+            }
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         } else if (xhr.status !== 200) {
             console.log("Login Failed");
             hideUserInfo();
