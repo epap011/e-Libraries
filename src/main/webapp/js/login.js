@@ -1,3 +1,5 @@
+let isStudent = 0;
+let isLibrarian = 0;
 $(document).ready(function () {
     showLogin();
     isLoggedIn();
@@ -167,24 +169,26 @@ function studentLogin(){
     else{
         divLogin.removeAttribute('hidden');
     }
-    // let html = '<div className="aesthetic-container">'+
-    //     '<h1>Welcome to e-Libraries</h1>'+
-    //     '<form id="myForm" name="myForm">'+
-    //         '<div className="form-floating mb-3 w-auto">'+
-    //             '<input type="text" className="form-control" id="username" name="username" required>'+
-    //                 '<label htmlFor="username">Username</label>'+
-    //                 '<div><label id="invalidUsernameMessage"></label></div>'+
-    //         '</div>'+
-    //         '<div className="form-floating mb-3 w-auto">'+
-    //             '<input type="Password" className="form-control" id="loginPassword" name="loginPassword" required>'+
-    //                 '<label htmlFor="loginPassword">Κώδικος</label>'+
-    //                 '<div><label id="loginMessage"></label></div>'+
-    //         '</div>'+
-    //         '<input type="button" id="login-button" value="Login" onClick="login()">'+
-    //             '<input type="button" id="register-button" value="Register" onClick="window.location="register.html"">'+
-    //     '</form>'+
-    // '</div>'
     let login = $('#divLogin').load('login.html');
     console.log(login);
     divLogin.innerHTML += login;
+    isStudent = 1;
+    isLibrarian = 0;
+}
+
+function librarianLogin(){
+    var divLogin = document.getElementById('divLogin')
+    if (!divLogin.hasAttribute('hidden')){
+        if(divLogin.innerHTML != '') {
+            divLogin.setAttribute('hidden', 'true');
+        }
+    }
+    else{
+        divLogin.removeAttribute('hidden');
+    }
+    let login = $('#divLogin').load('login.html');
+    console.log(login);
+    divLogin.innerHTML += login;
+    isStudent = 0;
+    isLibrarian = 1;
 }
