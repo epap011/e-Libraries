@@ -140,6 +140,7 @@ audio {
   margin-top: 33px;
   padding-top: 58px;
   text-align: center;
+  overflow: auto;
 }
 
 #hello-message-box {
@@ -266,9 +267,19 @@ audio {
 
 /*---Footer Section---*/
 #footer-section {
+  position: relative;
+  bottom: 0;
+  width: 100%;;
   background-color: #FCF7F3;
   height: auto;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
+}
+
+.flex-wrapper {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /* Media Queries */
