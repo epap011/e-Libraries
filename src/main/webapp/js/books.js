@@ -3,12 +3,14 @@ function createBookBoxes(books) {
     var curr_book = 0;
     let html = '<div className="container-fluid">';
 
-    alert('1'+ books[curr_book]['title']);
     console.log(typeof(books[curr_book]['title']));
-    for (let i = 0; i < count/4; i++) {
+    for (let i = 0; i <= count/4; i++) { //
         html += '<div class="row">';
         for (let j = 0; j < 4; j++) {
-
+            if(count <= curr_book) {
+                continue;
+            }
+            console.log(books[curr_book]);
             html += '<div class="col-sm-3">';
             html += '<article class="article-box">\n' +
                 ' <h4>'+books[curr_book]['title']+'</h4>\n' +
@@ -19,9 +21,11 @@ function createBookBoxes(books) {
             html += '</div>';
             curr_book++;
         }
+        if(count <= curr_book) {
+            break;
+        }
         html += '</div>';
     }
-    html += '</div>';
 
     return html;
 }

@@ -134,21 +134,6 @@ function createTableFromJSON(data) {
     return html;
 }
 
-function getAllBooks() {
-    let xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log(xhr.responseText);
-            document.getElementById("user-info").innerHTML = createTableFromJSON(JSON.parse(xhr.responseText));
-        } else if (xhr.status !== 200) {
-
-        }
-    };
-
-    xhr.open('GET', 'Books');
-    xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-    xhr.send();
-}
 
 function updateUser() {
     let form     = document.getElementById('userUpdateForm');
