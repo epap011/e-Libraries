@@ -2,12 +2,15 @@ package rest;
 
 import com.google.gson.Gson;
 import database.tables.EditBooksTable;
+import mainClasses.Book;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 @Path("books")
 public class BooksAPI {
@@ -50,7 +53,9 @@ public class BooksAPI {
         }
 
         if (!books.isEmpty()) {
+            Collections.sort(books, (b1, b2) -> b2.getGenre().compareTo(b1.getGenre()));
             String json = new Gson().toJson(books);
+            System.out.println(json);
             return Response.status(Response.Status.OK).type("application/json").entity(json).build();
         } else {
             return Response.status(Response.Status.BAD_REQUEST).type("application/json").entity("{\"error\":\"Books with these requirements not exist\"}").build();
