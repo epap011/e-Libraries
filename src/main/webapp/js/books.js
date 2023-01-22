@@ -52,7 +52,7 @@ function getAllBooks() {
         }
     };
 
-    xhr.open("GET", "http://localhost:8080/eLibraries/aaa/books/all");
+    xhr.open("GET", "http://localhost:8080/eLibraries/resource/books/all");
     xhr.setRequestHeader("Accept", "application/json");
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send();
