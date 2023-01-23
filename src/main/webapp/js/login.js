@@ -1,11 +1,22 @@
 let isStudent = 0;
 let isLibrarian = 0;
 let showInfos = 0;
+
 $(document).ready(function () {
     showLogin();
     isLoggedIn();
     console.log("isLoggedIn invoked!");
 });
+
+//make divLogin hidden if outside click event occurs
+// window.onload = function(){
+//     var divToHide = document.getElementById('divLogin');
+//     document.onclick = function(e){
+//         if($( "#divLogin" ).is( ":visible" ) && e.target.id !== 'divLogin') {
+//             divToHide.style.display = 'none';
+//         }
+//     };
+// };
 
 function isLoggedIn() {
     let xhr = new XMLHttpRequest();
