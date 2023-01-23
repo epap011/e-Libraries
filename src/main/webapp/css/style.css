@@ -58,7 +58,6 @@ body {
   min-height: 100vh;
   text-align: center;
   position: relative;
-  border: solid 2px green;
   display: flex;
   flex-direction: column;
 }
@@ -77,9 +76,9 @@ body {
   bottom: 0;
   height: auto;
   width: 100%;
-  background-color: #FCF7F3;
+  background-color: #444549;
+  color: #cfcfcf;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
-  border: solid 2px red;
 }
 
 /* Media Queries */

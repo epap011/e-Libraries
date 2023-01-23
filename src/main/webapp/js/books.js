@@ -3,6 +3,7 @@ function createBookBoxes(books) {
     var curr_book = 0;
     let html = '<div className="container-fluid">';
     var prevGenre = "";
+
     for (let i = 0; i <= count/4; i++) { //
         html += '<div class="row">';
         for (let j = 0; j < 4; j++) {
