@@ -72,13 +72,13 @@ body {
 
 /*---Footer Section---*/
 #footer-section {
-    position: absolute;
-    bottom: 0;
-    height: auto;
-    width: 100%;
-    background-color: #444549;
-    color: #cfcfcf;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
+  position: absolute;
+  bottom: 0;
+  height: auto;
+  width: 100%;
+  background-color: #444549;
+  color: #cfcfcf;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
 }
 
 /* Media Queries */
