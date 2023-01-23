@@ -42,6 +42,9 @@ public class Login extends HttpServlet {
                 String librarianJson = new EditLibrarianTable().librarianToJSON((Librarian) user);
                 response.getWriter().write(librarianJson);
             }
+            if(user instanceof User) {
+                response.getWriter().write("admin");
+            }
         }
         else{
             System.out.println("Session not exists");
@@ -72,6 +75,9 @@ public class Login extends HttpServlet {
                 if(user instanceof Librarian) {
                     String librarianJson = new EditLibrarianTable().librarianToJSON((Librarian) user);
                     response.getWriter().write(librarianJson);
+                }
+                if(user instanceof User) {
+                    response.getWriter().write("admin");
                 }
             } else {
                 System.out.println("Password of " + username + " is Wrong");
