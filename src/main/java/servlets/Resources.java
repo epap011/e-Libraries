@@ -33,6 +33,11 @@ public class Resources {
             for (Librarian librarian: librarians) {
                 registeredUsers.put(librarian.getUsername(), librarian);
             }
+
+            User admin = new User();
+            admin.setUsername("admin");
+            admin.setPassword("admin1234");
+            registeredUsers.put("admin", admin);
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

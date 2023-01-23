@@ -1,5 +1,6 @@
 let isStudent = 0;
 let isLibrarian = 0;
+var isAdmin = 0;
 let showInfos = 0;
 
 $(document).ready(function () {
@@ -23,6 +24,9 @@ function isLoggedIn() {
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             console.log("Session exists, you are already logged in");
+            if(xhr.responseText === "admin") {
+                isAdmin = 1;
+            }
             // document.getElementById("login-messages").innerHTML = "You are Logged in :)";
             showUserInfo();
         } else if (xhr.status !== 200) {
@@ -42,25 +46,31 @@ function login() {
     let xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log("Successful Login");
-            document.getElementById("loginMessage").innerHTML   = "Successful Login\n";
-            document.getElementById("loginMessage").style.color = "green";
-            let loggedInUsername = username;
-            document.getElementById("loginMessage").innerHTML += "You are Logged in " + loggedInUsername;
+            if(xhr.responseText === "admin") {
+                window.location.replace("/eLibraries/admin.html");
+                isAdmin = 1;
+            }
+            else {
+                console.log("Successful Login");
+                document.getElementById("loginMessage").innerHTML   = "Successful Login\n";
+                document.getElementById("loginMessage").style.color = "green";
+                let loggedInUsername = username;
+                document.getElementById("loginMessage").innerHTML += "You are Logged in " + loggedInUsername;
 
-            showInfos = 1;
-            getUserInfo();
-            document.getElementById('dropdownLoginRegister').setAttribute('hidden' , 'true');
-            document.getElementById('divLogin').setAttribute('hidden' , 'true');
-            document.getElementById('divIntoNav').innerHTML += '<button id="buttonLogout" onclick="logout()">Logout</button>'
-            // if(isStudent){
-            //     console.log("show extra buttons student");
-            //     document.getElementById('extraButtons').innerHTML = "\t\t\t\t<label for=\"genre5\">Genre:</label>\n" +
-            //         "\t\t\t\t<input id=\"genre5\" type=\"text\"><br>\n" +
-            //         "\t\t\t\t<label for='toYear5'>To Year:</label>\n" +
-            //         "\t\t\t\t<input id=\"toYear5\" type=\"text\"> <br>\n" +
-            //         "\t\t\t\t<button type=\"button\" onclick=\"getBooksGenreToYear()\" class=\"button\">Get Books with genre/toYear</button> "
-            // }
+                showInfos = 1;
+                getUserInfo();
+                document.getElementById('dropdownLoginRegister').setAttribute('hidden' , 'true');
+                document.getElementById('divLogin').setAttribute('hidden' , 'true');
+                document.getElementById('divIntoNav').innerHTML += '<button id="buttonLogout" onclick="logout()">Logout</button>'
+                // if(isStudent){
+                //     console.log("show extra buttons student");
+                //     document.getElementById('extraButtons').innerHTML = "\t\t\t\t<label for=\"genre5\">Genre:</label>\n" +
+                //         "\t\t\t\t<input id=\"genre5\" type=\"text\"><br>\n" +
+                //         "\t\t\t\t<label for='toYear5'>To Year:</label>\n" +
+                //         "\t\t\t\t<input id=\"toYear5\" type=\"text\"> <br>\n" +
+                //         "\t\t\t\t<button type=\"button\" onclick=\"getBooksGenreToYear()\" class=\"button\">Get Books with genre/toYear</button> "
+                // }
+            }
         } else if (xhr.status !== 200) {
             console.log("Login Failed");
             hideUserInfo();
@@ -80,10 +90,19 @@ function logout(){
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             console.log("Successful Logout");
-            document.getElementById('dropdownLoginRegister').removeAttribute('hidden');
-            document.getElementById('buttonLogout').remove();
-            hideUserInfo();
-            showInfos = 0;
+            console.log(isAdmin);
+            if(isAdmin === 1) {
+                console.log("redirect to eLibraries HomePage >>");
+                window.location.replace("/eLibraries/");
+                isAdmin = 0;
+            }
+            else {
+                console.log("here 2");
+                document.getElementById('dropdownLoginRegister').removeAttribute('hidden');
+                document.getElementById('buttonLogout').remove();
+                hideUserInfo();
+                showInfos = 0;
+            }
         } else if (xhr.status !== 200) {
             alert('Request failed. Returned status of ' + xhr.status);
             console.log("Unsuccessful Logout");
