@@ -47,6 +47,7 @@ function getAllBooks() {
             let count= Object.keys(obj).length;
             let html = createBookBoxes(obj);
             document.getElementById("bookList").innerHTML = html;
+            $("#bookList").show();
         } else if (xhr.status !== 200) {
             document.getElementById('bookList').innerHTML = 'Request failed. Returned status of ' + xhr.status + "<br>";
         }
