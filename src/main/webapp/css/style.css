@@ -1,124 +1,134 @@
 body {
-  font-family:'Times New Roman', Times, serif;
+    font-family:'Times New Roman', Times, serif;
 }
 
 /*---Bootstrap's Navbar override Section---*/
 .navbar {
-  background-color: #FCF7F3;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
-  position: relative;
+    background-color: #FCF7F3;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
+    position: relative;
 }
 
 .navbar .navbar-brand {
-  color: #616161;
-  font: size 32px;
-  font-family:'Times New Roman', Times, serif;
-  font-weight: bolder;
+    color: #616161;
+    font: size 32px;
+    font-family:'Times New Roman', Times, serif;
+    font-weight: bolder;
 }
 
 .navbar .navbar-brand:hover, .navbar-default .navbar-brand:focus {
-  color: #e47878;
+    color: #e47878;
 }
 
 .navbar .navbar-nav > li > a {
-  color: #414141;
+    color: #414141;
 }
 
 .navbar .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-  color: #e47878;
+    color: #e47878;
 }
 
 .navbar .navbar-nav > li > .dropdown-menu {
-  background-color: #FCF7F3;
-  border-radius: 10px;
-  border-width: 2px;
-  border-color: #e47878;
+    background-color: #FCF7F3;
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: #e47878;
 }
 
 .navbar .navbar-nav > li > .dropdown-menu > li > a {
-  color: #363636;
+    color: #363636;
 }
 
 .navbar .navbar-nav > li > .dropdown-menu > li > a:hover,
 .navbar .navbar-nav > li > .dropdown-menu > li > a:focus {
-  background-color: #FFEDDC;
+    background-color: #FFEDDC;
 }
 
 .navbar-toggler {
-  background-color: #FFEDDC;
-  border-color: #363636;
-  color: #e47878;
+    background-color: #FFEDDC;
+    border-color: #363636;
+    color: #e47878;
 }
 
 /*---Home Section---*/
 #home-section {
-  background-color: #FCF7F3;
-  width: 100%;
-  padding-top: 15%;
-  min-height: 100vh;
-  text-align: center;
-  position: relative;
-  border: solid 2px green;
-  display: flex;
-  flex-direction: column;
+    background-color: #FCF7F3;
+    width: 100%;
+    padding-top: 15%;
+    min-height: 100vh;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .fixed{
-  width: 200px;
+    width: 200px;
 }
 .flex-item{
-  flex-grow: 1;
-  margin-left: 8px;
+    flex-grow: 1;
+    margin-left: 8px;
+}
+
+/*---Footer Section---*/
+#footer-section {
+    position: absolute;
+    bottom: 0;
+    height: auto;
+    width: 100%;
+    background-color: #444549;
+    color: #cfcfcf;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
 }
 
 /* Media Queries */
 @media screen and (max-width: 998px) {
-  h1 {
-    font-weight:500;
-  }
-  #home-section {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
+    h1 {
+        font-weight:500;
+    }
+    #home-section {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
 }
 
 @media screen and (max-width: 480) {
-  h4{
-    font-weight: 400;
-  }
+    h4{
+        font-weight: 400;
+    }
 }
 
 #divLogin {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-left: 87%;
-  margin-top: 11%;
-  align-items: center;
-  align-content: center;
-  height: 5%;
-  width: 5%;
-  background-color: #FCF7F3;
-  position: absolute;
-  z-index: 1;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-left: 88%;
+    margin-top: 8%;
+    align-items: center;
+    align-content: center;
+    height: 5%;
+    width: 5%;
+    background-color: #FCF7F3;
+    position: absolute;
+    z-index: 1;
 }
 
 #bookList{
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  height: 100%;
-  width: 100%;
-  position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    height: 100%;
+    width: 100%;
+    position: relative;
 }
 
 #userInfos{
-  height: 900px;
-  width: 100%;
-  position: relative;
-  margin-top: -12%;
+    height: 900px;
+    width: 100%;
+    position: relative;
+    margin-top: -12%;
 }
