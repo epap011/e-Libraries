@@ -72,11 +72,11 @@ public class Login extends HttpServlet {
                     String studentJson = new EditStudentsTable().studentToJSON((Student) user);
                     response.getWriter().write(studentJson);
                 }
-                if(user instanceof Librarian) {
+                else if(user instanceof Librarian) {
                     String librarianJson = new EditLibrarianTable().librarianToJSON((Librarian) user);
                     response.getWriter().write(librarianJson);
                 }
-                if(user instanceof User) {
+                else {
                     response.getWriter().write("admin");
                 }
             } else {
