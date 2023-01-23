@@ -1,0 +1,60 @@
+.navbar {
+    background-color: #3a3a41;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
+    position: relative;
+}
+
+.navbar .navbar-brand {
+    color: #cfcfcf;
+    font: size 32px;
+    font-family:'Times New Roman', Times, serif;
+    font-weight: bolder;
+}
+
+.navbar .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+    color: #e47878;
+}
+
+.navbar .navbar-nav > li > a {
+    color: #cfcfcf;
+}
+
+.navbar .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: #e47878;
+}
+
+.navbar .navbar-nav > li > .dropdown-menu {
+    background-color: #FCF7F3;
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: #e47878;
+}
+
+.navbar .navbar-nav > li > .dropdown-menu > li > a {
+    color: #cfcfcf;
+}
+
+.navbar .navbar-nav > li > .dropdown-menu > li > a:hover,
+.navbar .navbar-nav > li > .dropdown-menu > li > a:focus {
+    background-color: #FFEDDC;
+}
+
+.navbar-toggler {
+    background-color: #FFEDDC;
+    border-color: #363636;
+    color: #e47878;
+}
+
+#operationsPanel {
+    margin-top: 20px;
+}
+
+#footer-section {
+    position: relative;
+    bottom: 0;
+    height: auto;
+    width: 100%;
+    background-color: #FCF7F3;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
+    border: solid 2px red;
+}

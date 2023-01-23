@@ -71,17 +71,6 @@ body {
   margin-left: 8px;
 }
 
-/*---Footer Section---*/
-#footer-section {
-  position: absolute;
-  bottom: 0;
-  height: auto;
-  width: 100%;
-  background-color: #FCF7F3;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
-  border: solid 2px red;
-}
-
 /* Media Queries */
 @media screen and (max-width: 998px) {
   h1 {
