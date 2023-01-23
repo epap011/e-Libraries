@@ -23,7 +23,7 @@ tr {
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 4px 6px 0 rgba(0,0,0,.2);
-    width: 300px;
+    width: 400px;
 }
 
 #login-button {
@@ -36,7 +36,7 @@ tr {
     border-radius: 10px;
     width: 120px;
     height: 50px;
-    margin-left: 10%;
+    margin-left: 9%;
 }
 
 #register-button {
@@ -47,7 +47,7 @@ tr {
     border: 0px;
     color: aliceblue;
     border-radius: 10px;
-    width: 150px;
+    width: 120px;
     height: 50px;
     margin-left: 15%;
     margin-top: 1%;
