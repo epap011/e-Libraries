@@ -13,10 +13,12 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mainClasses.Book;
 import mainClasses.BookInLibrary;
+import mainClasses.Librarian;
 
 /**
  *
@@ -53,6 +55,27 @@ public class EditBooksInLibraryTable {
             Gson gson = new Gson();
             BookInLibrary tr  = gson.fromJson(json, BookInLibrary.class);
             return tr;
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public ArrayList<BookInLibrary> databaseToBookInLibraries() throws SQLException, ClassNotFoundException{
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+        ResultSet rs;
+        ArrayList<BookInLibrary> booksInLibraries = new ArrayList<>();
+        try {
+            rs = stmt.executeQuery("SELECT * FROM booksinlibraries");
+            while (rs.next()) {
+                String json = DB_Connection.getResultsToJSON(rs);
+                Gson gson = new Gson();
+                BookInLibrary bil = gson.fromJson(json, BookInLibrary.class);
+                booksInLibraries.add(bil);
+            }
+            return booksInLibraries;
         } catch (Exception e) {
             System.err.println("Got an exception! ");
             System.err.println(e.getMessage());

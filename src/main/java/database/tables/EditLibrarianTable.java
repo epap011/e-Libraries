@@ -234,4 +234,23 @@ public class EditLibrarianTable {
         }
     }
 
+    public String getLibrarianName(int id) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery("SELECT libraryname FROM librarians WHERE library_id ="+id );
+            rs.next();
+            String json = DB_Connection.getResultsToJSON(rs);
+            Gson gson = new Gson();
+            Librarian lib = gson.fromJson(json, Librarian.class);
+            return lib.getLibraryname();
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
 }

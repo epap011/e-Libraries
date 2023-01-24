@@ -85,3 +85,61 @@ function createTableFromJSON(list, idName) {
     html += "</table>";
     return html;
 }
+
+function showStatistics() {
+    const xhr = new XMLHttpRequest();
+
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log(xhr.responseText);
+            let statistics = JSON.parse(xhr.responseText);
+            let numberOfStudentsPerTypeStatistics = statistics["statistics"]["numberOfStudentsPerType"];
+            let numberOfBooksPerGenre             = statistics["statistics"]["numberOfBooksPerGenre"];
+            let numberOfBooksPerLibrary           = statistics["statistics"]["numberOfBooksPerLibrary"];
+
+            createPieChart("pie", numberOfStudentsPerTypeStatistics, "chart1", "Students Per Qualification");
+            createPieChart("bar", numberOfBooksPerGenre, "chart2", "Books Per Genre");
+            createPieChart("pie", numberOfBooksPerLibrary, "chart3", "Books Per Libraries");
+
+        }
+        else {
+            console.log('[ERROR] something went wrong with statistics');
+        }
+    }
+
+    xhr.open("GET", "http://localhost:8080/eLibraries/resource/statistics");
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send();
+}
+
+function createPieChart(chart_type, studentsPerType, chart_id, message) {
+    var xValues = [];
+    var yValues = [];
+    for (const [key, value] of Object.entries(studentsPerType)) {
+        xValues.push(key);
+        yValues.push(value);
+    }
+
+    console.log(xValues);
+    console.log(yValues);
+
+    var barColors = ["#b91d47", "#00aba9", "#2b5797", "#e8c3b9", "#1e7145"];
+
+    new Chart(document.getElementById(chart_id), {
+        type: chart_type,
+        data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: message
+            }
+        }
+    });
+}
