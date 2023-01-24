@@ -32,6 +32,24 @@ function getAllLibrarians() {
     xhr.send();
 }
 
+function deleteStudent(id) {
+    const xhr = new XMLHttpRequest();
+
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log('user deleted successfully');
+        }
+        else {
+            console.log('[ERROR] user deletion failed');
+        }
+    }
+
+    xhr.open("DELETE", "http://localhost:8080/eLibraries/resource/user/student/"+id);
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send();
+}
+
 function createTableFromJSON(list, idName) {
     let html = "<table><tr><th>ID</th><th>Username</th><th>First Name</th><th>Last Name</th></tr>";
     for (const student in list) {
@@ -40,7 +58,7 @@ function createTableFromJSON(list, idName) {
             list[student]['username']  + "</td><td>" +
             list[student]['firstname'] + "</td><td>" +
             list[student]['firstname'] + "</td>" +
-            "<td><input type='button' class='DeleteButton' value='Delete User'></td></tr>";
+            `<td><input type='button' class='DeleteButton' value='Delete User' onclick='deleteStudent(${list[student][idName]})'></td></tr>`;
     }
     html += "</table>";
     return html;

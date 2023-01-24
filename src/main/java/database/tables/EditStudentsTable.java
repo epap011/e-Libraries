@@ -271,6 +271,22 @@ public class EditStudentsTable {
         }
     }
 
+    public void deleteStudent(int id) throws ClassNotFoundException {
+        try {
+            Connection con = DB_Connection.getConnection();
+            Statement stmt = con.createStatement();
+
+            String insertQuery = "DELETE FROM students WHERE user_id="+id;
+            stmt.executeUpdate(insertQuery);
+            System.out.println("# The user was successfully deleted.");
+
+            stmt.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(EditStudentsTable.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
    
 
 }

@@ -48,4 +48,20 @@ public class User {
             return Response.status(Response.Status.BAD_REQUEST).type("application/json").entity("{\"error\":\"Books with these requirements not exist\"}").build();
         }
     }
+
+    @DELETE
+    @Path("/student/{id}/")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response deleteStudentAccount(@PathParam("id") int id) throws SQLException, ClassNotFoundException {
+        EditStudentsTable studentsEditTable = new EditStudentsTable();
+
+        studentsEditTable.deleteStudent(id);
+        try {
+            return Response.status(Response.Status.OK).type("application/json").entity("{\"status\":\"Student was successfully deleted\"}").build();
+        } catch (Exception e){
+            return Response.status(Response.Status.BAD_REQUEST).type("application/json").entity("{\"status\":\"Student's deletion failed\"\"}").build();
+        }
+    }
+
 }
