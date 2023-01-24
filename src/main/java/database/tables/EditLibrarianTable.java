@@ -213,4 +213,44 @@ public class EditLibrarianTable {
         }
     }
 
+    public void deleteLibrarian(int id) throws ClassNotFoundException {
+        try {
+            Connection con = DB_Connection.getConnection();
+            Statement stmt = con.createStatement();
+
+            //First all the books of this librarian must be deleted
+
+            String insertQuery = "DELETE FROM booksinlibraries WHERE library_id="+id;
+            stmt.executeUpdate(insertQuery);
+
+            insertQuery = "DELETE FROM librarians WHERE library_id="+id;
+            stmt.executeUpdate(insertQuery);
+            System.out.println("# The user was successfully deleted.");
+
+            stmt.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(EditStudentsTable.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public String getLibrarianName(int id) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery("SELECT libraryname FROM librarians WHERE library_id ="+id );
+            rs.next();
+            String json = DB_Connection.getResultsToJSON(rs);
+            Gson gson = new Gson();
+            Librarian lib = gson.fromJson(json, Librarian.class);
+            return lib.getLibraryname();
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
 }
