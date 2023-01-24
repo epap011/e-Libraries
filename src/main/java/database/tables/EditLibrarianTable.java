@@ -213,4 +213,25 @@ public class EditLibrarianTable {
         }
     }
 
+    public void deleteLibrarian(int id) throws ClassNotFoundException {
+        try {
+            Connection con = DB_Connection.getConnection();
+            Statement stmt = con.createStatement();
+
+            //First all the books of this librarian must be deleted
+
+            String insertQuery = "DELETE FROM booksinlibraries WHERE library_id="+id;
+            stmt.executeUpdate(insertQuery);
+
+            insertQuery = "DELETE FROM librarians WHERE library_id="+id;
+            stmt.executeUpdate(insertQuery);
+            System.out.println("# The user was successfully deleted.");
+
+            stmt.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(EditStudentsTable.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }

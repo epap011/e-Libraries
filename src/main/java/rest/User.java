@@ -64,4 +64,19 @@ public class User {
         }
     }
 
+    @DELETE
+    @Path("/librarian/{id}/")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response deleteLibrarianAccount(@PathParam("id") int id) throws SQLException, ClassNotFoundException {
+        EditLibrarianTable editLibrarianTable = new EditLibrarianTable();
+
+        editLibrarianTable.deleteLibrarian(id);
+        try {
+            return Response.status(Response.Status.OK).type("application/json").entity("{\"status\":\"Student was successfully deleted\"}").build();
+        } catch (Exception e){
+            return Response.status(Response.Status.BAD_REQUEST).type("application/json").entity("{\"status\":\"Student's deletion failed\"\"}").build();
+        }
+    }
+
 }
