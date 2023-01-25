@@ -1,38 +1,43 @@
-let isStudent = 0;
+let isStudent   = 0;
 let isLibrarian = 0;
-var isAdmin = 0;
-let showInfos = 0;
+let isAdmin     = 0;
+let showInfos   = 0;
 
 $(document).ready(function () {
     showLogin();
     isLoggedIn();
-    console.log("isLoggedIn invoked!");
 });
 
-//make divLogin hidden if outside click event occurs
-// window.onload = function(){
-//     var divToHide = document.getElementById('divLogin');
-//     document.onclick = function(e){
-//         if($( "#divLogin" ).is( ":visible" ) && e.target.id !== 'divLogin') {
-//             divToHide.style.display = 'none';
-//         }
-//     };
-// };
+function footerAlign() {
+    $('footer').css('display', 'block');
+    $('footer').css('height', 'auto');
+    var footerHeight = $('footer').outerHeight();
+    $('body').css('padding-bottom', footerHeight);
+    $('footer').css('height', footerHeight);
+}
+
+
+$(document).ready(function(){
+    footerAlign();
+});
+
+$( window ).resize(function() {
+    footerAlign();
+});
 
 function isLoggedIn() {
+    console.log('checking if session exists..');
     let xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log("Session exists, you are already logged in");
+            console.log("session exists :)");
             if(xhr.responseText === "admin") {
                 isAdmin = 1;
             }
-            // document.getElementById("login-messages").innerHTML = "You are Logged in :)";
             showUserInfo();
         } else if (xhr.status !== 200) {
-            console.log("Session not exists, you are logged out");
-            // document.getElementById("login-messages").innerHTML = "Welcome stranger";
-            hideUserInfo();
+            console.log("session not exists :(");
+            $("#userInfos").hide();
         }
     };
     xhr.open('GET', 'Login');
@@ -46,36 +51,30 @@ function login() {
     let xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log("Successful Login :)");
             if(xhr.responseText === "admin") {
+                console.log("redirect to eLibraries Administration Page >>");
                 window.location.replace("/eLibraries/admin.html");
                 isAdmin = 1;
             }
             else {
-                console.log("Successful Login");
-                document.getElementById("loginMessage").innerHTML   = "Successful Login\n";
-                document.getElementById("loginMessage").style.color = "green";
-                let loggedInUsername = username;
-                document.getElementById("loginMessage").innerHTML += "You are Logged in " + loggedInUsername;
-
-                showInfos = 1;
-                getUserInfo();
                 document.getElementById('dropdownLoginRegister').setAttribute('hidden' , 'true');
                 document.getElementById('divLogin').setAttribute('hidden' , 'true');
-                document.getElementById('divIntoNav').innerHTML += '<button id="buttonLogout" onclick="logout()">Logout</button>'
-                // if(isStudent){
-                //     console.log("show extra buttons student");
-                //     document.getElementById('extraButtons').innerHTML = "\t\t\t\t<label for=\"genre5\">Genre:</label>\n" +
-                //         "\t\t\t\t<input id=\"genre5\" type=\"text\"><br>\n" +
-                //         "\t\t\t\t<label for='toYear5'>To Year:</label>\n" +
-                //         "\t\t\t\t<input id=\"toYear5\" type=\"text\"> <br>\n" +
-                //         "\t\t\t\t<button type=\"button\" onclick=\"getBooksGenreToYear()\" class=\"button\">Get Books with genre/toYear</button> "
-                // }
+                document.getElementById('divIntoNav').innerHTML += '<button type="button" id="buttonLogout" class="btn btn-outline-primary" onclick="logout()">Logout</button>'
+                if(isLibrarian) {
+                    console.log("librarian.html loaded!");
+                    $('#librarianDashboard').load('librarian.html');
+                    $("#librarianDashboard").show();
+                }
+                else if(isStudent) {
+                    console.log("student.html loaded!")
+                    console.log("show extra buttons student");
+                    $('#studentDashboard').load('student.html');
+                    $("#studentDashboard").show();
+                }
             }
         } else if (xhr.status !== 200) {
-            console.log("Login Failed");
-            hideUserInfo();
-            document.getElementById("loginMessage").innerHTML   = "username or password is incorrect";
-            document.getElementById("loginMessage").style.color = "red";
+            console.log("Unsuccessful  Login :(");
         }
     };
 
@@ -84,28 +83,64 @@ function login() {
     xhr.send();
 }
 
+function loginAsStudent(){
+    console.log("studentLogin() invoked");
+    let divLogin = document.getElementById('divLogin')
+    if (!divLogin.hasAttribute('hidden')){
+        if(divLogin.innerHTML !== '') {
+            divLogin.setAttribute('hidden', 'true');
+        }
+    }
+    else{
+        divLogin.removeAttribute('hidden');
+    }
+    let login = $('#divLogin').load('login.html');
+    console.log(login);
+    divLogin.innerHTML += login;
+    isStudent   = 1;
+    isLibrarian = 0;
+}
+
+function loginAsLibrarian(){
+    console.log("librarianLogin() invoked");
+    let divLogin = document.getElementById('divLogin')
+    if (!divLogin.hasAttribute('hidden')){
+        if(divLogin.innerHTML !== '') {
+            divLogin.setAttribute('hidden', 'true');
+        }
+    }
+    else{
+        divLogin.removeAttribute('hidden');
+    }
+    let login = $('#divLogin').load('login.html');
+    divLogin.innerHTML += login;
+    isStudent   = 0;
+    isLibrarian = 1;
+}
+
 function logout(){
     let xhr = new XMLHttpRequest();
 
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log("Successful Logout");
+            console.log("Successful Logout :)");
             console.log(isAdmin);
             if(isAdmin === 1) {
-                console.log("redirect to eLibraries HomePage >>");
+                console.log("redirect to eLibraries Guest Page >>");
                 window.location.replace("/eLibraries/");
-                isAdmin = 0;
             }
             else {
-                console.log("here 2");
                 document.getElementById('dropdownLoginRegister').removeAttribute('hidden');
                 document.getElementById('buttonLogout').remove();
-                hideUserInfo();
-                showInfos = 0;
+                $("#studentDashboard").hide();
+                $("#librarianDashboard").hide();
             }
+            isAdmin     = 0;
+            showInfos   = 0;
+            isLibrarian = 0;
+            isStudent   = 0;
         } else if (xhr.status !== 200) {
-            alert('Request failed. Returned status of ' + xhr.status);
-            console.log("Unsuccessful Logout");
+            console.log("Unsuccessful Logout :(");
         }
     };
 
@@ -119,31 +154,28 @@ function showLogin() {
     $("#login-box").load("login.html");
 }
 
-function showUserInfo() {
-    if (showInfos) {
-        $("#userInfos").show();
-        $("#bookList").hide();
-    }
-}
-
-function hideUserInfo() {
-    $("#userInfos").hide();
+function showUserInfo(info) {
+    $("#bookList").hide();
+    $("#userInfos").show();
+    if (showInfos === 1)
+        document.getElementById("userInfos").innerHTML = createUserUpdateForm(info);
 }
 
 function getUserInfo() {
     let xhr = new XMLHttpRequest();
-
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log("user info retrieved from server!");
-            document.getElementById("userInfos").innerHTML = createUserUpdateForm(JSON.parse(xhr.responseText));
+            console.log("user info retrieved from server! :)");
+            showUserInfo(JSON.parse(xhr.responseText));
+            showInfos = 1;
         } else if (xhr.status !== 200) {
-            console.log("user info didnt retrieve from server!");
+            console.log("user info didn't retrieve from server! :(");
         }
     };
     xhr.open('GET', 'Login');
     xhr.send();
 }
+
 function createUserUpdateForm(data) {
     let html = "<form id='userUpdateForm' name='userUpdateForm' onsubmit='updateUser(); return false;'>";
     for (const x in data) {
@@ -166,21 +198,6 @@ function createUserUpdateForm(data) {
     html += "<input type='submit' id='changes_submit_button' value='Apply Changes'></form>";
     return html;
 }
-
-function createTableFromJSON(data) {
-    let html = "<table><tr><th>ISBN</th><th>TITLE</th><th>Authors</th><th>Genre</th><th>URL</th>" +
-        "<th>Photo</th><th>Pages</th><th>Pub.Year</th></tr>";
-    for (const book in data) {
-        html += "<tr>";
-        for(const attribute in data[book]) {
-            html += "<td>" + data[book][attribute] + "</td>";
-        }
-        html += "</tr>";
-    }
-    html += "</table>";
-    return html;
-}
-
 
 function updateUser() {
     let form     = document.getElementById('userUpdateForm');
@@ -206,36 +223,15 @@ function updateUser() {
     xhr.send(JSON.stringify(data));
 }
 
-function studentLogin(){
-    var divLogin = document.getElementById('divLogin')
-    if (!divLogin.hasAttribute('hidden')){
-        if(divLogin.innerHTML != '') {
-            divLogin.setAttribute('hidden', 'true');
-        }
-    }
-    else{
-        divLogin.removeAttribute('hidden');
-    }
-    let login = $('#divLogin').load('login.html');
-    console.log(login);
-    divLogin.innerHTML += login;
-    isStudent = 1;
-    isLibrarian = 0;
+function showHome() {
+    $("#userInfos").hide();
+    $("#bookList").hide();
 }
 
-function librarianLogin(){
-    var divLogin = document.getElementById('divLogin')
-    if (!divLogin.hasAttribute('hidden')){
-        if(divLogin.innerHTML != '') {
-            divLogin.setAttribute('hidden', 'true');
-        }
-    }
-    else{
-        divLogin.removeAttribute('hidden');
-    }
-    let login = $('#divLogin').load('login.html');
-    console.log(login);
-    divLogin.innerHTML += login;
-    isStudent = 0;
-    isLibrarian = 1;
+function  showExtraButtons(){
+    $("#extraButtons").show();
+}
+
+function hideExtraButtons(){
+    $("#extraButtons").hide();
 }

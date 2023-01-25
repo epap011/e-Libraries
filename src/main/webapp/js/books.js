@@ -1,3 +1,5 @@
+let showBooks = 0;
+
 function createBookBoxes(books) {
     let count = Object.keys(books).length;
     var curr_book = 0;
@@ -40,14 +42,21 @@ function createBookBoxes(books) {
 }
 
 function getAllBooks() {
+    if (showBooks === 1) {
+        $("#userInfos").hide();
+        $("#bookList").show();
+        return;
+    }
+
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            var obj = JSON.parse(xhr.responseText);
+            showBooks = 1;
+            let obj = JSON.parse(xhr.responseText);
             let i = 1;
             let count= Object.keys(obj).length;
-            let html = createBookBoxes(obj);
-            document.getElementById("bookList").innerHTML = html;
+            document.getElementById("bookList").innerHTML = createBookBoxes(obj);
+            $("#userInfos").hide();
             $("#bookList").show();
         } else if (xhr.status !== 200) {
             document.getElementById('bookList').innerHTML = 'Request failed. Returned status of ' + xhr.status + "<br>";
