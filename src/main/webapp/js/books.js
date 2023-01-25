@@ -1,3 +1,5 @@
+let showBooks = 0;
+
 function createBookBoxes(books) {
     let count = Object.keys(books).length;
     var curr_book = 0;
@@ -40,14 +42,21 @@ function createBookBoxes(books) {
 }
 
 function getAllBooks() {
+    if (showBooks === 1) {
+        $("#userInfos").hide();
+        $("#bookList").show();
+        return;
+    }
+
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            var obj = JSON.parse(xhr.responseText);
+            showBooks = 1;
+            let obj = JSON.parse(xhr.responseText);
             let i = 1;
             let count= Object.keys(obj).length;
-            let html = createBookBoxes(obj);
-            document.getElementById("bookList").innerHTML = html;
+            document.getElementById("bookList").innerHTML = createBookBoxes(obj);
+            $("#userInfos").hide();
             $("#bookList").show();
         } else if (xhr.status !== 200) {
             document.getElementById('bookList').innerHTML = 'Request failed. Returned status of ' + xhr.status + "<br>";
@@ -58,4 +67,41 @@ function getAllBooks() {
     xhr.setRequestHeader("Accept", "application/json");
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send();
+}
+
+function getBookByTitle(){
+    alert("getBookByTitle() has been invoked()");
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const obj = JSON.parse(xhr.responseText);
+            // var i=1;
+            // var count= Object.keys(obj).length;
+            // document.getElementById("msg").innerHTML="<h3>"+count+" Books</h3>";
+            // for(id in obj){
+            //     document.getElementById("msg").innerHTML+=createTableFromJSON(obj[id],i);
+            //     i++;
+            // }
+            console.log(obj);
+            console.log(Object.keys(obj).length);
+            // for(book in obj){
+            //     document.getElementById("bookList")
+            // }
+        } else if (xhr.status !== 200) {
+            document.getElementById('msg').innerHTML = 'Request failed. Returned status of ' + xhr.status + "<br>";
+        }
+    };
+    let name=document.getElementById('title').value;
+    xhr.open("GET", "http://localhost:8080/eLibraries/resource/books/title?name="+name);
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send();
+}
+
+function getBookByAuthor(){
+    alert("getBookByAuthor() has been invoked()");
+}
+
+function getBookByPages(){
+    alert("getBookByPages() has been invoked()");
 }

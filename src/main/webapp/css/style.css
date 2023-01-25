@@ -1,5 +1,11 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 body {
     font-family:'Times New Roman', Times, serif;
+    background-color: #f6d6b9;
 }
 
 /*---Bootstrap's Navbar override Section---*/
@@ -7,6 +13,8 @@ body {
     background-color: #FCF7F3;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
     position: relative;
+    padding-bottom: 50px;
+    margin-bottom: 50px;
 }
 
 .navbar .navbar-brand {
@@ -50,68 +58,11 @@ body {
     color: #e47878;
 }
 
-/*---Home Section---*/
-#home-section {
-    background-color: #FCF7F3;
-    width: 100%;
-    padding-top: 15%;
-    min-height: 100vh;
-    text-align: center;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-
-.fixed{
-    width: 200px;
-}
-.flex-item{
-    flex-grow: 1;
-    margin-left: 8px;
-}
-
-/*---Footer Section---*/
-#footer-section {
-  position: absolute;
-  bottom: 0;
-  height: auto;
-  width: 100%;
-  background-color: #444549;
-  color: #cfcfcf;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
-}
-
-/* Media Queries */
-@media screen and (max-width: 998px) {
-    h1 {
-        font-weight:500;
-    }
-    #home-section {
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-}
-
-@media screen and (max-width: 480) {
-    h4{
-        font-weight: 400;
-    }
-}
-
 #divLogin {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-left: 88%;
-    margin-top: 8%;
-    align-items: center;
-    align-content: center;
-    height: 5%;
-    width: 5%;
-    background-color: #FCF7F3;
-    position: absolute;
-    z-index: 1;
+    margin-top: 20px;
+    position: fixed;
+    margin-left: 83%;
+    margin-right: 17%;
 }
 
 #bookList{
@@ -126,9 +77,28 @@ body {
     position: relative;
 }
 
-#userInfos{
-    height: 900px;
+footer {
+    background-color: #444549;
+    color: #cfcfcf;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
+    display:none;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: auto;
     width: 100%;
-    position: relative;
-    margin-top: -12%;
+}
+
+
+/* Media Queries */
+@media screen and (max-width: 998px) {
+    h1 {
+        font-weight:500;
+    }
+}
+
+@media screen and (max-width: 480) {
+    h4{
+        font-weight: 400;
+    }
 }
