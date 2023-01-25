@@ -68,6 +68,7 @@ function login() {
                 }
                 else if(isStudent) {
                     console.log("student.html loaded!")
+                    console.log("show extra buttons student");
                     $('#studentDashboard').load('student.html');
                     $("#studentDashboard").show();
                 }
@@ -156,16 +157,11 @@ function showLogin() {
 function showUserInfo(info) {
     $("#bookList").hide();
     $("#userInfos").show();
-    if (showInfos === 0)
+    if (showInfos === 1)
         document.getElementById("userInfos").innerHTML = createUserUpdateForm(info);
 }
 
 function getUserInfo() {
-    if(showInfos === 1) {
-        showUserInfo();
-        return;
-    }
-
     let xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {

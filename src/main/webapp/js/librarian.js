@@ -54,9 +54,9 @@ function showBookAvailability() {
         '<br><label for=\'isbn\'>Book ISBN:</label><br>\n' +
         '<input id=\'isbn\' type=\'text\' name=\'isbn\' required><br><br>\n' +
         '<label>Set the availability</label><br>'+
-        '<input type="radio" id="availableRadioButton" name="availability" value="available">' +
+        '<input type="radio" id="availableRadioButton" name="availability" value="true">' +
         '<label htmlFor="availableRadioButton">available</label>'+
-        '<input type="radio" id="notAvailableRadioButton" name="availability" value="not available">'+
+        '<input type="radio" id="notAvailableRadioButton" name="availability" value="false">'+
         '<label htmlFor="notAvailableRadioButton">not available</label><br><br>'+
         '<input type=\'submit\' class="button" value="Change Availability">\n' +
         '</form>';
@@ -65,6 +65,8 @@ function showBookAvailability() {
 }
 
 function setBookAvailability() {
+    let isbn = document.getElementById("isbn").value;
+    let availability = document.getElementById("availability").value;
 
     let xhr = new XMLHttpRequest();
     xhr.onload = function () {
@@ -77,7 +79,7 @@ function setBookAvailability() {
         }
     };
 
-    xhr.open('POST', 'http://localhost:8080/eLibraries/resource/availability?isbn='+isbn+'&availability='+availability);
+    xhr.open('PUT', 'http://localhost:8080/eLibraries/resource/availability?isbn='+isbn+'&availability='+availability);
     xhr.setRequestHeader("Content-type", "application/json");
     xhr.send();
 }

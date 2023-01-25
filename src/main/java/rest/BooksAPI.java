@@ -2,7 +2,9 @@ package rest;
 
 import com.google.gson.Gson;
 import database.tables.EditBooksTable;
+import database.tables.EditReviewsTable;
 import mainClasses.Book;
+import mainClasses.Review;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -10,7 +12,6 @@ import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 @Path("books")
 public class BooksAPI {
@@ -76,7 +77,7 @@ public class BooksAPI {
     @Path("/title/")
     @Produces({ MediaType.APPLICATION_JSON})
     public Response getBooksWithTitle(@QueryParam("name") String name)
-                                     throws SQLException, ClassNotFoundException {
+            throws SQLException, ClassNotFoundException {
 
         if(name == null) {
             return Response.status(Response.Status.BAD_REQUEST).type("application/json").entity("{\"error\":\"You need to give name of the book\"}").build();
@@ -85,8 +86,28 @@ public class BooksAPI {
         ArrayList<mainClasses.Book> books;
         books = new EditBooksTable().databaseToBooksName(name);
 
+        String JSONreviewsPerBook = "";
+        String JSONbook = "";
+        ArrayList<String> reviewsList = new ArrayList<>();
+        ArrayList<String> bookWithReviewsList = new ArrayList<>();
         if (!books.isEmpty()) {
-            String json = new Gson().toJson(books);
+            ArrayList<mainClasses.Review> reviews;
+            for( Book book : books) {
+                reviews = new EditReviewsTable().databaseToReviews(book.getIsbn());
+                for(Review review : reviews){
+                    JSONreviewsPerBook = new Gson().toJson(review);
+                    reviewsList.add(JSONreviewsPerBook);
+                }
+                JSONbook = new Gson().toJson(book);
+                String temp1 = JSONbook.substring(0 , JSONbook.length()-2);
+                String temp2 = new Gson().toJson(reviewsList);
+                temp1 += ", \"reviews\":" + temp2 + "}";
+                System.out.println(temp1);
+                bookWithReviewsList.add(temp1);
+                temp1="";
+                reviewsList.clear();
+            }
+            String json = new Gson().toJson(bookWithReviewsList);
             System.out.println(json);
             return Response.status(Response.Status.OK).type("application/json").entity(json).build();
         } else {
@@ -107,13 +128,34 @@ public class BooksAPI {
         ArrayList<mainClasses.Book> books;
         books = new EditBooksTable().databaseToBooksAuthor(name);
 
+        String JSONreviewsPerBook = "";
+        String JSONbook = "";
+        ArrayList<String> reviewsList = new ArrayList<>();
+        ArrayList<String> bookWithReviewsList = new ArrayList<>();
         if (!books.isEmpty()) {
-            String json = new Gson().toJson(books);
+            ArrayList<mainClasses.Review> reviews;
+            for( Book book : books) {
+                reviews = new EditReviewsTable().databaseToReviews(book.getIsbn());
+                for(Review review : reviews){
+                    JSONreviewsPerBook = new Gson().toJson(review);
+                    reviewsList.add(JSONreviewsPerBook);
+                }
+                JSONbook = new Gson().toJson(book);
+                String temp1 = JSONbook.substring(0 , JSONbook.length()-2);
+                String temp2 = new Gson().toJson(reviewsList);
+                temp1 += ", \"reviews\":" + temp2 + "}";
+                System.out.println(temp1);
+                bookWithReviewsList.add(temp1);
+                temp1="";
+                reviewsList.clear();
+            }
+            String json = new Gson().toJson(bookWithReviewsList);
             System.out.println(json);
             return Response.status(Response.Status.OK).type("application/json").entity(json).build();
         } else {
             return Response.status(Response.Status.BAD_REQUEST).type("application/json").entity("{\"error\":\"Books with these requirements not exist\"}").build();
         }
+
     }
 
     @GET
@@ -121,7 +163,7 @@ public class BooksAPI {
     @Produces({ MediaType.APPLICATION_JSON})
     public Response getBooksWithAuthor(@QueryParam("fromPages") String fromPages,
                                        @QueryParam("toPages") String toPages)
-                                        throws SQLException, ClassNotFoundException {
+            throws SQLException, ClassNotFoundException {
 
         if(fromPages != null && toPages != null) {
             if(Integer.parseInt(fromPages) > Integer.parseInt(toPages)) {
@@ -137,10 +179,31 @@ public class BooksAPI {
         if(toPages != null) {
             books.removeIf(b -> b.getPages() > Integer.parseInt(toPages));
         }
+        String JSONreviewsPerBook = "";
+        String JSONbook = "";
+        ArrayList<String> reviewsList = new ArrayList<>();
+        ArrayList<String> bookWithReviewsList = new ArrayList<>();
         if (!books.isEmpty()) {
-            Collections.sort(books, (b1, b2) -> b2.getGenre().compareTo(b1.getGenre()));
-            String json = new Gson().toJson(books);
-            System.out.println(json);
+            ArrayList<mainClasses.Review> reviews;
+            for( Book book : books) {
+                reviews = new EditReviewsTable().databaseToReviews(book.getIsbn());
+                for(Review review : reviews){
+                    JSONreviewsPerBook = new Gson().toJson(review);
+                    reviewsList.add(JSONreviewsPerBook);
+                }
+                JSONbook = new Gson().toJson(book);
+                String temp1 = JSONbook.substring(0 , JSONbook.length()-2);
+                System.out.println("temp1 substring = " + temp1);
+                String temp2 = new Gson().toJson(reviewsList);
+                System.out.println("temp2 = " + temp2);
+                temp1 += ", \"reviews\":" + temp2 + "}";
+                System.out.println("temp1 after concatenate = " + temp1);
+                bookWithReviewsList.add(temp1);
+                temp1 = "";
+                reviewsList.clear();
+            }
+            String json = new Gson().toJson(bookWithReviewsList);
+            System.out.println("final jason = " + json);
             return Response.status(Response.Status.OK).type("application/json").entity(json).build();
         } else {
             return Response.status(Response.Status.BAD_REQUEST).type("application/json").entity("{\"error\":\"Books with these requirements not exist\"}").build();
