@@ -44,7 +44,7 @@ function showAddBookForm() {
         '<input type=\'submit\' class="button" value="Add Book">\n' +
         '</form>';
 
-    document.getElementById("userInfos").innerHTML = html;
+    document.getElementById("librarianResults").innerHTML = html;
 }
 
 function showBookAvailability() {
@@ -61,7 +61,7 @@ function showBookAvailability() {
         '<input type=\'submit\' class="button" value="Change Availability">\n' +
         '</form>';
 
-    document.getElementById("userInfos").innerHTML = html;
+    document.getElementById("librarianResults").innerHTML = html;
 }
 
 function setBookAvailability() {
