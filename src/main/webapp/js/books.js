@@ -4,24 +4,26 @@ function createBookBoxes(books) {
     let count = Object.keys(books).length;
     var prevGenre = "";
 
-    let html = '<div className="container-fluid">';
+    let html = '<div class="container-fluid">';
     for (let i = 0; i < count; i++) {
         if(books[i]['genre'] !== prevGenre) {
             prevGenre = books[i]['genre'];
             if(i  > 0) html += '</div>';
-            html += '<h1>'+books[i]['genre']+'</h1>';
+            html += '<br><br><h1>'+books[i]['genre']+'</h1>';
             html += '<div class="row">';
         }
-        html += '<div class="col-sm">';
-        html += '<article class="article-box">\n' +
-            ` <div class="fixed"><img src=${books[i]['photo']} height="300px" width="200px"></div>`+
-            ' <div class="flex-item"> <b>'+books[i]['title']+'</b>\n' +
+        html += '<div class="col-sm-4">';
+        html += '<article class="book-box container-fluid">\n' +
+            ' <div class="row">' +
+            ` <div class='col'><img src=${books[i]['photo']} height="300px" width="200px"></div>`+
+            ' <div class="col"> <b>'+books[i]['title']+'</b>\n' +
             ' <br><br><b>isbn: </b>'+books[i]['isbn']+'\n' +
             ' <br><b>genre: </b> '+books[i]['genre']+'\n' +
             ' <br><b>pages: </b> '+books[i]['pages']+'\n' +
             ' <br><b>publicationYear: </b> '+books[i]['publicationyear']+'\n' +
-            ` <br><a href=${books[i]['url']}>book link</a></div>`+'\n' +
-            '</article>';
+            ` <br><a href=${books[i]['url']}>book link</a>`+'\n' +
+            ` <br><br><button type="button" class="btn btn-outline-primary" onclick="alert('working on it..')">Borrow Book</button></div>` +
+            '</div></article>';
         html += '</div>';
     }
     html += '</div>';

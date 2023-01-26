@@ -65,12 +65,14 @@ body {
     margin-right: 17%;
 }
 
-#bookList{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: left;
-    position: relative;
+.book-box {
+    background-color:#FCF7F3;
+    padding: 5px;
+    margin-top: 10px;
+    border-radius: 12px;
+    max-width: 450px    ;
+    border: 2px solid black;
+    box-shadow: 0 4px 6px 0 rgba(0,0,0,.2);
 }
 
 footer {
