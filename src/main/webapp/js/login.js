@@ -156,9 +156,14 @@ function showLogin() {
 
 function showUserInfo(info) {
     $("#bookList").hide();
-    $("#userInfos").show();
-    if (showInfos === 1)
+    if (isStudent==1) {
+        $("#userInfos").show();
         document.getElementById("userInfos").innerHTML = createUserUpdateForm(info);
+    }
+    else if(isLibrarian==1) {
+        $("#librarianResults").show();
+        document.getElementById("librarianResults").innerHTML = createUserUpdateForm(info);
+    }
 }
 
 function getUserInfo() {

@@ -44,6 +44,7 @@ function createBookBoxes(books) {
 function getAllBooks() {
     if (showBooks === 1) {
         $("#userInfos").hide();
+        $("#librarianResults").hide();
         $("#bookList").show();
         return;
     }
@@ -57,6 +58,7 @@ function getAllBooks() {
             let count= Object.keys(obj).length;
             document.getElementById("bookList").innerHTML = createBookBoxes(obj);
             $("#userInfos").hide();
+            $("#librarianResults").hide();
             $("#bookList").show();
         } else if (xhr.status !== 200) {
             document.getElementById('bookList').innerHTML = 'Request failed. Returned status of ' + xhr.status + "<br>";
