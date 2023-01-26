@@ -108,6 +108,14 @@ public class EditBooksInLibraryTable {
         stmt.executeUpdate(update);
     }
 
+    public void updateAvailabilityBookInLibrary(String library_id, Boolean available, String isbn) throws SQLException, ClassNotFoundException{
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+
+        String update="UPDATE booksinlibraries SET available='"+available+"'"+ " WHERE library_id = '"+library_id+"'"+ "AND isbn = '" + isbn + "'";
+        stmt.executeUpdate(update);
+    }
+
     /**
      * Establish a database connection and add in the database.
      *

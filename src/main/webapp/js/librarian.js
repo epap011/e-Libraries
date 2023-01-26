@@ -54,9 +54,9 @@ function showBookAvailability() {
         '<br><label for=\'isbn\'>Book ISBN:</label><br>\n' +
         '<input id=\'isbn\' type=\'text\' name=\'isbn\' required><br><br>\n' +
         '<label>Set the availability</label><br>'+
-        '<input type="radio" id="availableRadioButton" name="availability" value="true">' +
+        '<input type="radio" id="availableRadioButton1" name="availability" value="true">' +
         '<label htmlFor="availableRadioButton">available</label>'+
-        '<input type="radio" id="notAvailableRadioButton" name="availability" value="false">'+
+        '<input type="radio" id="notAvailableRadioButton2" name="availability" value="false">'+
         '<label htmlFor="notAvailableRadioButton">not available</label><br><br>'+
         '<input type=\'submit\' class="button" value="Change Availability">\n' +
         '</form>';
@@ -66,20 +66,20 @@ function showBookAvailability() {
 
 function setBookAvailability() {
     let isbn = document.getElementById("isbn").value;
-    let availability = document.getElementById("availability").value;
+    let availability = document.querySelector('input[name="availability"]:checked').value;
 
     let xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log('book successfully added to the database');
+            console.log('book\'s availability successfully changed');
 
         } else if (xhr.status !== 200) {
-            console.log('ERROR: book not added to the database');
+            console.log('ERROR: book\' availability didnt change');
 
         }
     };
 
-    xhr.open('PUT', 'http://localhost:8080/eLibraries/resource/availability?isbn='+isbn+'&availability='+availability);
+    xhr.open('PUT', 'http://localhost:8080/eLibraries/resource/availability/?isbn='+isbn+'&availability='+availability);
     xhr.setRequestHeader("Content-type", "application/json");
     xhr.send();
 }

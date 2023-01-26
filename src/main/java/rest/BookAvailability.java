@@ -8,27 +8,34 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 
-@Path("/")
+import database.tables.EditBooksInLibraryTable;
+import database.tables.EditLibrarianTable;
+import mainClasses.Librarian;
+
+@Path("availability")
 public class BookAvailability {
 
     public BookAvailability() {}
 
     @PUT
-    @Path("availability")
+    @Path("/")
     @Produces({MediaType.APPLICATION_JSON})
     public Response changeAvailabilityOfBook(@Context HttpServletRequest request,
                                              @QueryParam("isbn") String isbn,
                                              @QueryParam("availability") Boolean availability) throws SQLException, ClassNotFoundException {
 
         HttpSession session = request.getSession();
-        System.out.println("Session="+session.getAttributeNames());
-        System.out.println("ISBN: " + isbn);
-        System.out.println("Availability: " + availability);
-//        try {
-//            EditBooksInLibraryTable editBooksInLibraryTable = new EditBooksInLibraryTable();
-//            editBooksInLibraryTable.
-//        }
-        return Response.status(Response.Status.OK).type("application/json").entity("{\"error\":\"Books with these requirements not exist\"}").build();
-    }
+        EditLibrarianTable elt = new EditLibrarianTable();
+        Librarian librarian = elt.databaseToLibrarian((String)session.getAttribute("loggedIn"));
+        Integer librarianID = librarian.getLibrary_id();
 
+        try {
+            EditBooksInLibraryTable editBooksInLibraryTable = new EditBooksInLibraryTable();
+            editBooksInLibraryTable.updateAvailabilityBookInLibrary(String.valueOf(librarianID), availability, isbn);
+            return Response.status(Response.Status.OK).type("application/json").entity("{\"error\":\"book's availability didn't change\"}").build();
+        }
+        catch (Exception e) {
+            return Response.status(Response.Status.BAD_REQUEST).type("application/json").entity("{\"error\":\"book's availability didn't change\"}").build();
+        }
+    }
 }

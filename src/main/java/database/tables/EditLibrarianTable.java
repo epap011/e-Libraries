@@ -80,6 +80,25 @@ public class EditLibrarianTable {
         return null;
     }
 
+    public Librarian databaseToLibrarian(String username) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery("SELECT * FROM librarians WHERE username = '" + username + "'");
+            rs.next();
+            String json = DB_Connection.getResultsToJSON(rs);
+            Gson gson = new Gson();
+            Librarian lib = gson.fromJson(json, Librarian.class);
+            return lib;
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
     public ArrayList<Librarian> databaseToLibrarians() throws SQLException, ClassNotFoundException {
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
