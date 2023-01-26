@@ -28,6 +28,8 @@ public class BooksAPI {
         books = new EditBooksTable().databaseToBooks();
 
         if (!books.isEmpty()) {
+            books.sort((b1, b2) -> b2.getGenre().compareTo(b1.getGenre()));
+            Collections.reverse(books);
             String json = new Gson().toJson(books);
             System.out.println(json);
             return Response.status(Response.Status.OK).type("application/json").entity(json).build();
