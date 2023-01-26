@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.example</groupId>
-  <artifactId>UserRegistration</artifactId>
+  <artifactId>eLibraries</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>UserRegistration Maven Webapp</name>
+  <name>eLibraries Web APP</name>
   <url>http://maven.apache.org</url>
 
   <dependencies>
@@ -72,7 +72,7 @@
         </configuration>
       </plugin>
     </plugins>
-    <finalName>UserRegistration</finalName>
+    <finalName>eLibraries</finalName>
   </build>
 
 </project>
