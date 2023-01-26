@@ -166,8 +166,8 @@ function getUserInfo() {
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             console.log("user info retrieved from server! :)");
-            showUserInfo(JSON.parse(xhr.responseText));
             showInfos = 1;
+            showUserInfo(JSON.parse(xhr.responseText));
         } else if (xhr.status !== 200) {
             console.log("user info didn't retrieve from server! :(");
         }
