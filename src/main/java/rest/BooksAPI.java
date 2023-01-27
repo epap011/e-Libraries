@@ -39,6 +39,19 @@ public class BooksAPI {
     }
 
     @GET
+    @Path("/isbn/{isbn}")
+    @Produces({ MediaType.APPLICATION_JSON})
+    public Response getBook(@PathParam("isbn") String isbn) throws SQLException, ClassNotFoundException {
+        try {
+            Book book = new EditBooksTable().databaseToBook(isbn);
+            String json = new Gson().toJson(book);
+            return Response.status(Response.Status.OK).type("application/json").entity(json).build();
+        } catch(Exception e) {
+            return Response.status(Response.Status.BAD_REQUEST).type("application/json").entity("{\"error\":\"Books with these requirements not exist\"}").build();
+        }
+    }
+
+    @GET
     @Path("/genre/{genre}/")
     @Produces({ MediaType.APPLICATION_JSON})
     public Response getBooksWithGenre(@PathParam("genre") String genre,

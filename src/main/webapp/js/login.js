@@ -129,11 +129,14 @@ function logout(){
                 console.log("redirect to eLibraries Guest Page >>");
                 window.location.replace("/eLibraries/");
             }
-            else {
+            else {books[i]['isbn']
                 document.getElementById('dropdownLoginRegister').removeAttribute('hidden');
                 document.getElementById('buttonLogout').remove();
+                $("#bookList").hide();
                 $("#studentDashboard").hide();
                 $("#librarianDashboard").hide();
+                $("#borrowBookSection").hide();
+
             }
             isAdmin     = 0;
             showInfos   = 0;
@@ -156,11 +159,12 @@ function showLogin() {
 
 function showUserInfo(info) {
     $("#bookList").hide();
-    if (isStudent==1) {
+    $("#borrowBookSection").hide();
+    if (isStudent===1) {
         $("#userInfos").show();
         document.getElementById("userInfos").innerHTML = createUserUpdateForm(info);
     }
-    else if(isLibrarian==1) {
+    else if(isLibrarian===1) {
         $("#librarianResults").show();
         document.getElementById("librarianResults").innerHTML = createUserUpdateForm(info);
     }
@@ -231,6 +235,7 @@ function updateUser() {
 function showHome() {
     $("#userInfos").hide();
     $("#bookList").hide();
+    $("#borrowBookSection").hide();
 }
 
 function makeBorrowButtonsHidden() {
