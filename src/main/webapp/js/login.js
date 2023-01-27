@@ -124,7 +124,7 @@ function logout(){
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             console.log("Successful Logout :)");
-            console.log(isAdmin);
+            makeBorrowButtonsHidden();
             if(isAdmin === 1) {
                 console.log("redirect to eLibraries Guest Page >>");
                 window.location.replace("/eLibraries/");
@@ -233,10 +233,9 @@ function showHome() {
     $("#bookList").hide();
 }
 
-function  showExtraButtons(){
-    $("#extraButtons").show();
-}
-
-function hideExtraButtons(){
-    $("#extraButtons").hide();
+function makeBorrowButtonsHidden() {
+    let borrowBookButtons = document.getElementsByClassName("borrowBookButton");
+    Array.from(borrowBookButtons).forEach((b) => {
+        b.style.visibility = 'hidden';
+    });
 }

@@ -2,7 +2,7 @@ let showBooks = 0;
 
 function createBookBoxes(books) {
     let count = Object.keys(books).length;
-    var prevGenre = "";
+    let prevGenre = "";
 
     let html = '<div class="container-fluid">';
     for (let i = 0; i < count; i++) {
@@ -22,7 +22,7 @@ function createBookBoxes(books) {
             ' <br><b>pages: </b> '+books[i]['pages']+'\n' +
             ' <br><b>publicationYear: </b> '+books[i]['publicationyear']+'\n' +
             ` <br><a href=${books[i]['url']}>book link</a>`+'\n' +
-            ` <br><br><button type="button" class="btn btn-outline-primary" onclick="alert('working on it..')">Borrow Book</button></div>` +
+            ` <br><br><button type="button" class="btn btn-outline-primary borrowBookButton" onclick="alert('working on it..')">Borrow Book</button></div>` +
             '</div></article>';
         html += '</div>';
     }
@@ -35,6 +35,17 @@ function getAllBooks() {
     if (showBooks === 1) {
         $("#userInfos").hide();
         $("#librarianResults").hide();
+
+        let borrowBookButtons = document.getElementsByClassName("borrowBookButton");
+        if(isStudent) {
+            Array.from(borrowBookButtons).forEach((b) => {
+                b.style.visibility = 'visible';
+            });
+        } else {
+            Array.from(borrowBookButtons).forEach((b) => {
+                b.style.visibility = 'hidden';
+            });
+        }
         $("#bookList").show();
         return;
     }
@@ -47,6 +58,16 @@ function getAllBooks() {
             document.getElementById("bookList").innerHTML = createBookBoxes(obj);
             $("#userInfos").hide();
             $("#librarianResults").hide();
+            let borrowBookButtons = document.getElementsByClassName("borrowBookButton");
+            if(isStudent) {
+                Array.from(borrowBookButtons).forEach((b) => {
+                    b.style.visibility = 'visible';
+                });
+            } else {
+                Array.from(borrowBookButtons).forEach((b) => {
+                    b.style.visibility = 'hidden';
+                });
+            }
             $("#bookList").show();
         } else if (xhr.status !== 200) {
             document.getElementById('bookList').innerHTML = 'Request failed. Returned status of ' + xhr.status + "<br>";
