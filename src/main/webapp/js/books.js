@@ -121,6 +121,20 @@ function geBookBorrowingPageBasedOnIsbn(isbn) {
                 bookInfoDiv.innerHTML = html;
             }
 
+            document.getElementById("reviewForm").addEventListener("submit",
+                function(){sendReview(isbn); return false;}, false);
+
+            if(isBookAlreadyBorrowed()) {
+                document.getElementById("borrowButton").textContent = 'Return Book';
+                document.getElementById("borrowButton").addEventListener("click",
+                    function(){returnBookRequest(isbn)}, false);
+            }
+            else {
+                document.getElementById("borrowButton").textContent = 'Borrow Book';
+                document.getElementById("borrowButton").addEventListener("click",
+                    function(){sendBorrowRequest(isbn)}, false);
+            }
+
             //Getting all the available libraries for this book & Update the map
             let librarians = JSON.parse(xhr.responseText);
             let libraries = document.getElementById("availableLibraries");
@@ -144,7 +158,7 @@ function geBookBorrowingPageBasedOnIsbn(isbn) {
                     ' <br><b>email: </b> '+librarians[i]['email']+'\n' +
                     ' <br><b>Info: </b> '+librarians[i]['libraryinfo']+'\n' +
                     ` <br><a href=${librarians[i]['personalpage']}>web page</a></div>` +
-                    '</div></article><br>';
+                    '</div></article><br><br>';
             }
 
             html += "</div></div><br><br>";
@@ -153,13 +167,51 @@ function geBookBorrowingPageBasedOnIsbn(isbn) {
         }
         else {
             console.log("Error");
-        }article-box
+        }
     };
 
     xhr.open("GET", "http://localhost:8080/eLibraries/resource/borrow-info/"+isbn);
     xhr.setRequestHeader("Accept", "application/json");
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send();
+}
+
+function sendReview(isbn) {
+    let reviewForm = document.getElementById('reviewForm');
+    let formData = new FormData(reviewForm);
+    let data = {};
+
+    formData.forEach((value, key) => (data[key] = value));
+
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log(xhr.responseText);
+        } else if (xhr.status !== 200) {
+
+        }
+    };
+
+    xhr.open("POST", "http://localhost:8080/eLibraries/resource/review/" + isbn);
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(reviewForm));
+}
+
+function isBookAlreadyBorrowed(isbn) {
+    return true;
+}
+
+function isBorrowOver(isbn) {
+    return false;
+}
+
+function sendBorrowRequest() {
+
+}
+
+function returnBookRequest() {
+
 }
 
 function clearMapMarkers() {

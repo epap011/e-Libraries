@@ -60,11 +60,26 @@
     <div id="borrowBookSection">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-4">
-                    <div id="borrowBookInfo"></div>
+                <div class="col-sm-3">
+                    <div class="row">
+                        <div id="borrowBookInfo"></div>
+                    </div>
+                    <div class="row">
+                        <button type="button" id="borrowButton" class="btn btn-outline-primary" onclick="alert('working on it..')">Make a Borrow</button>
+                    </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <div id="Map" class="map"></div>
+                </div>
+                <div class="col-sm-3 review-box">
+                    <h2> Write a Review </h2>
+                    <form id="reviewForm">
+                        <label for="reviewMessage">review message:</label>
+                        <input type="text" id="reviewMessage" name="reviewMessage" size="50"><br><br>
+                        <label for="reviewScore">score:</label><br>
+                        <input type="number" id="reviewScore" name="reviewScore" size="4" min="1" max="5"><br><br>
+                        <input type="submit" value="Submit">
+                    </form>
                 </div>
             </div>
             <div class="row">
