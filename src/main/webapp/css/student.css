@@ -5,3 +5,12 @@
 #studentButtonsPanel {
     margin-right: 15px;
 }
+
+.map {
+    height: 370px;
+    width: 100%;
+}
+
+#borrowBookSection {
+    visibility: hidden;
+}

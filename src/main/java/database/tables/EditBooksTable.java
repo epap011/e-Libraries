@@ -46,6 +46,23 @@ public class EditBooksTable {
         return books2Json;
     }
 
+    public Book databaseToBook(String isbn) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery("SELECT * FROM books WHERE isbn= '" + isbn + "'");
+            rs.next();
+            String json = DB_Connection.getResultsToJSON(rs);
+            Gson gson = new Gson();
+            return gson.fromJson(json, Book.class);
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
     public ArrayList<Book> databaseToBooks() throws SQLException, ClassNotFoundException {
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
