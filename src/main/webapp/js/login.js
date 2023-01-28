@@ -129,7 +129,7 @@ function logout(){
                 console.log("redirect to eLibraries Guest Page >>");
                 window.location.replace("/eLibraries/");
             }
-            else {books[i]['isbn']
+            else {
                 document.getElementById('dropdownLoginRegister').removeAttribute('hidden');
                 document.getElementById('buttonLogout').remove();
                 $("#bookList").hide();

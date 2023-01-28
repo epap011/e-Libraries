@@ -73,9 +73,9 @@
                 </div>
                 <div class="col-sm-3 review-box">
                     <h2> Write a Review </h2>
-                    <form id="reviewForm">
-                        <label for="reviewMessage">review message:</label>
-                        <input type="text" id="reviewMessage" name="reviewMessage" size="50"><br><br>
+                    <form id="reviewForm" onsubmit="return false;">
+                        <label for="reviewText">review message:</label>
+                        <input type="text" id="reviewText" name="reviewText" size="50"><br><br>
                         <label for="reviewScore">score:</label><br>
                         <input type="number" id="reviewScore" name="reviewScore" size="4" min="1" max="5"><br><br>
                         <input type="submit" value="Submit">

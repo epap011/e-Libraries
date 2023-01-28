@@ -30,7 +30,7 @@ function createBookBoxes(books) {
             ' <br><b>pages: </b> '+books[i]['pages']+'\n' +
             ' <br><b>publicationYear: </b> '+books[i]['publicationyear']+'\n' +
             ` <br><a href=${books[i]['url']}>book link</a>`+'\n' +
-            ` <br><br><button type="button" class="btn btn-outline-primary borrowBookButton" onclick="geBookBorrowingPageBasedOnIsbn(${books[i]['isbn']})">Borrow Book</button></div>` +
+            ` <br><br><button type="button" class="btn btn-outline-primary borrowBookButton" onclick="geBookBorrowingPageBasedOnIsbn(${books[i]['isbn']})">More Info</button></div>` +
             '</div></article>';
         html += '</div>';
     }
@@ -122,17 +122,25 @@ function geBookBorrowingPageBasedOnIsbn(isbn) {
             }
 
             document.getElementById("reviewForm").addEventListener("submit",
-                function(){sendReview(isbn); return false;}, false);
+                function(){sendReview(isbn);}, false);
 
-            if(isBookAlreadyBorrowed()) {
-                document.getElementById("borrowButton").textContent = 'Return Book';
+            let temp = isBookAlreadyBorrowed(isbn);
+            let bookStatus = temp[0];
+            let bookcopyId = temp[1];
+            console.log("bookcopyId= " , bookcopyId);
+            console.log("bookStatus= " , bookStatus);
+            if(bookStatus == 'available'){
+                document.getElementById("borrowButton").textContent = 'request for borrow';
                 document.getElementById("borrowButton").addEventListener("click",
-                    function(){returnBookRequest(isbn)}, false);
-            }
-            else {
-                document.getElementById("borrowButton").textContent = 'Borrow Book';
+                    function(){borrowRequest(isbn)}, false);
+            }else if(bookStatus == 'requested'){
+                document.getElementById("borrowButton").textContent = 'you already request to borrow the book';
+            }else if(bookStatus == 'borrowed'){
+                document.getElementById("borrowButton").textContent = 'return the book';
                 document.getElementById("borrowButton").addEventListener("click",
-                    function(){sendBorrowRequest(isbn)}, false);
+                    function(){returnRequest(isbn)}, false);
+            }else if(bookStatus == 'returned' || bookStatus == 'successEnd'){
+                document.getElementById("borrowButton").textContent = 'you already borrow this book';
             }
 
             //Getting all the available libraries for this book & Update the map
@@ -195,11 +203,34 @@ function sendReview(isbn) {
     xhr.open("POST", "http://localhost:8080/eLibraries/resource/review/" + isbn);
     xhr.setRequestHeader("Accept", "application/json");
     xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.send(JSON.stringify(reviewForm));
+    xhr.send(JSON.stringify(data));
 }
 
 function isBookAlreadyBorrowed(isbn) {
-    return true;
+    var request = new XMLHttpRequest();
+    request.open('GET', 'http://localhost:8080/eLibraries/resource/borrowings/userId', false);
+    request.send();
+    if(request.status == 200){
+        let data = JSON.parse(request.responseText);
+        console.log(data);
+        for(let i=0; i<data.length; i++) {
+            var bor = data[i];
+            let bookId = bor['bookcopy_id'];
+            var request2 = new XMLHttpRequest();
+            request2.open('GET', 'http://localhost:8080/eLibraries/resource/availability/copyId?id=' + bookId, false);
+            request2.send();
+            let data2 = JSON.parse(request2.responseText);
+            console.log(data2);
+            let dataIsbn = data2['isbn']
+            if(dataIsbn == isbn){
+                return [bor['status'],bor['bookcopy_id']]
+            }
+        }
+        return ["available", isbn]
+    }else{
+        console.log("error: isBookAlready")
+    }
+
 }
 
 function isBorrowOver(isbn) {
@@ -216,6 +247,41 @@ function returnBookRequest() {
 
 function clearMapMarkers() {
     markers.clearMarkers();
+}
+
+function borrowRequest(isbn){
+    var request = new XMLHttpRequest();
+    request.open('GET', 'http://localhost:8080/eLibraries/resource/availability/isbn?isbn='+isbn, false);
+    request.send();
+    if (request.status == 200) {
+        let bookAv = JSON.parse(request.responseText);
+        console.log(bookAv);
+        if (bookAv == null) {
+            alert("All books are already borrowed :(")
+        } else {
+            let from = new Date();
+            let to = new Date();
+            to.setMonth(from.getMonth() + 1);
+            to = to.toISOString().split('T')[0]
+            from = from.toISOString().split('T')[0]
+            var request = new XMLHttpRequest();
+            console.log(from);
+            console.log(to);
+            request.open('POST', 'http://localhost:8080/eLibraries/resource/borrowings?bookId=' + bookAv['bookcopy_id'] + '&from=' + from + '&to=' + to, false);
+            request.send();
+            if(request.status == 200){
+
+            }else{
+                console.log("error in borrowReq , 2");
+            }
+        }
+    }else{
+        console.log("error in borrowReq , 1");
+    }
+}
+
+function returnRequest(isbn){
+
 }
 
 function setPosition(lat, lon){

@@ -1,18 +1,20 @@
 package rest;
 
 import com.google.gson.Gson;
-import database.tables.EditBooksInLibraryTable;
-import database.tables.EditBooksTable;
-import database.tables.EditBorrowingTable;
+import database.tables.*;
 import mainClasses.Book;
 import mainClasses.Borrowing;
+import mainClasses.Student;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.swing.text.Document;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.FileNotFoundException;
@@ -96,4 +98,53 @@ public class Borrowings {
                 return Response.status(Response.Status.BAD_REQUEST).type("application/json").entity("{\"error\":\"you cant change the status\"}").build();
             }
         }
+
+    @GET
+    @Path("/userId")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getStudentBorrowings(@Context HttpServletRequest request) throws SQLException, ClassNotFoundException {
+        System.out.println("borrowings resource has been invoked");
+        HttpSession session = request.getSession();
+        try {
+            EditStudentsTable est = new EditStudentsTable();
+            Student student = est.databaseToStudent((String)session.getAttribute("loggedIn"));
+
+            ArrayList<Borrowing> bors = new EditBorrowingTable().databaseToBorrowingsUserId(student.getUser_id());
+            String json = new Gson().toJson(bors);
+            System.out.println(json);
+            return Response.status(Response.Status.OK).type("application/json").entity(json).build();
+        } catch(Exception e) {
+            System.err.println(e.getMessage());
+            return Response.status(Response.Status.BAD_REQUEST).type("application/json").entity("{\"error\":\"review didnt add\"}").build();
+        }
+    }
+
+    @POST
+    @Path("/")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getStudentBorrowings(@Context HttpServletRequest request,
+                                         @QueryParam("bookId") String bookId,
+                                         @QueryParam("from") String from,
+                                         @QueryParam("to") String to) throws SQLException, ClassNotFoundException {
+        System.out.println("borrowings resource has been invoked to POST");
+        HttpSession session = request.getSession();
+        try {
+            EditStudentsTable est = new EditStudentsTable();
+            Student student = est.databaseToStudent((String)session.getAttribute("loggedIn"));
+            int userId = student.getUser_id();
+
+            Borrowing bor = new Borrowing();
+            bor.setBookcopy_id(Integer.parseInt(bookId));
+            bor.setStatus("requested");
+            bor.setFromDate(from);
+            bor.setToDate(to);
+            bor.setUser_id(userId);
+
+            new EditBorrowingTable().createNewBorrowing(bor);
+            return Response.status(Response.Status.OK).type("application/json").entity("{\"all good\":\"add borrow table\"}").build();
+        } catch(Exception e) {
+            System.err.println(e.getMessage());
+            return Response.status(Response.Status.BAD_REQUEST).type("application/json").entity("{\"error\":\"cant add in borrow table\"}").build();
+        }
+    }
 }
