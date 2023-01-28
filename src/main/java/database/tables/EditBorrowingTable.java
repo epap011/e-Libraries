@@ -6,12 +6,14 @@
 package database.tables;
 
 import com.google.gson.Gson;
+import mainClasses.Book;
 import mainClasses.Borrowing;
 import database.DB_Connection;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,9 +49,27 @@ public class EditBorrowingTable {
         return null;
     }
     
-    
-    
+    public ArrayList<Borrowing> databaseToBorrowings() throws SQLException, ClassNotFoundException{
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+        ArrayList<Borrowing> borrowings = new ArrayList<Borrowing>();
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery("SELECT * FROM borrowing");
+            while (rs.next()) {
+                String json = DB_Connection.getResultsToJSON(rs);
+                Gson gson = new Gson();
+                Borrowing borrowing = gson.fromJson(json, Borrowing.class);
+                borrowings.add(borrowing);
+            }
+            return borrowings;
 
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
       
      public Borrowing jsonToBorrowing(String json) {
         Gson gson = new Gson();
@@ -66,10 +86,10 @@ public class EditBorrowingTable {
     }
 
 
-    public void updateBorrowing(int borrowingID, int userID, String info, String status) throws SQLException, ClassNotFoundException {
+    public void updateBorrowing(int borrowingID, String status) throws SQLException, ClassNotFoundException {
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
-        String updateQuery = "UPDATE borrowing SET status";//...
+        String updateQuery = "UPDATE borrowing SET status='" + status + "' WHERE borrowing_id='" + borrowingID + "'";
         
         stmt.executeUpdate(updateQuery);
         stmt.close();
