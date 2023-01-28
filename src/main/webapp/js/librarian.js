@@ -83,3 +83,71 @@ function setBookAvailability() {
     xhr.setRequestHeader("Content-type", "application/json");
     xhr.send();
 }
+
+function showBooksStatus(){
+    let xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            let data = JSON.parse(xhr.responseText);
+            document.getElementById('librarianResults').innerHTML = createBorrowTable(data);
+        } else if (xhr.status !== 200) {
+            console.log("showBooksStatus error :(");
+        }
+    };
+    xhr.open('GET', 'http://localhost:8080/eLibraries/resource/borrowings/all');
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send();
+}
+
+function createBorrowTable(data){
+    var html = "<table><tr><th>user_id</th><th>fromdata</th><th>todate</th><th>bookcopy_id</th><th>status</th><th></th></tr>"
+    console.log(data);
+    for(let i=0; i<data.length; i++){
+        let borrow = data[i];
+        console.log(borrow);
+        let userId = `<label>${borrow['user_id']}</label>`
+        let from = `<label>${borrow['fromdate']}</label>`
+        let to = `<label>${borrow['todate']}</label>`
+        let bookcopyId = `<label>${borrow['bookcopy_id']}</label>`
+        let status = `<label>${borrow['status']}</label>`
+        let bt = `<button onclick='changeStatus(${borrow['borrowing_id']})'>change status</button>`
+        html += "<tr><td>" + userId + "</td><td>" + from + "</td><td>" + to + "</td><td>" + bookcopyId + "</td><td>" + status + "</td><td>" + bt + "</td></tr>";
+    }
+    html += "</table>";
+    return html;
+}
+
+function changeStatus(id ){
+    console.log('borrow id= ' , id);
+    let xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            let data = JSON.parse(xhr.responseText);
+            // document.getElementById('librarianResults').innerHTML = createBorrowTable(data);
+        } else if (xhr.status !== 200) {
+            console.log("changeStatus error :(");
+        }
+    };
+    xhr.open('PUT', 'http://localhost:8080/eLibraries/resource/borrowings/status?id='+id);
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send();
+}
+
+function getBorrowedBooks(){
+    console.log("get Borrowed books");
+    let xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            let data = JSON.parse(xhr.responseText);
+
+        } else if (xhr.status !== 200) {
+            console.log("getBorrowedBooks error :(");
+        }
+    };
+    xhr.open('GET', 'http://localhost:8080/eLibraries/resource/borrowings/all?pdf=yes');
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send();
+}
