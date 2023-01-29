@@ -22,6 +22,8 @@ function addBook() {
 }
 
 function showAddBookForm() {
+    $("#bookList").hide();
+    $("#librarianResults").show();
     let html =
         '<h3>Record Book Information</h3>\n' +
         '<form id="addBookForm" name="myForm" onsubmit=\'addBook();return false;\'>\n' +
@@ -48,6 +50,8 @@ function showAddBookForm() {
 }
 
 function showBookAvailability() {
+    $("#bookList").hide();
+    $("#librarianResults").show();
     let html =
         '<h3>Change the availability of a Book</h3>\n' +
         '<form id="availabilityForm" name="myForm" onsubmit=\'setBookAvailability();return false;\'>\n' +
@@ -85,6 +89,8 @@ function setBookAvailability() {
 }
 
 function showBooksStatus(){
+    $("#bookList").hide();
+    $("#librarianResults").show();
     let xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -100,19 +106,23 @@ function showBooksStatus(){
     xhr.send();
 }
 
-function createBorrowTable(data){
-    var html = "<table><tr><th>user_id</th><th>fromdata</th><th>todate</th><th>bookcopy_id</th><th>status</th><th></th></tr>"
+function createBorrowTable(data, show="yes"){
+    var html = "<table><tr><th>user_id</th><th>bookcopy_id</th><th>status</th><th></th></tr>"
     console.log(data);
     for(let i=0; i<data.length; i++){
         let borrow = data[i];
         console.log(borrow);
         let userId = `<label>${borrow['user_id']}</label>`
-        let from = `<label>${borrow['fromdate']}</label>`
-        let to = `<label>${borrow['todate']}</label>`
         let bookcopyId = `<label>${borrow['bookcopy_id']}</label>`
         let status = `<label>${borrow['status']}</label>`
-        let bt = `<button onclick='changeStatus(${borrow['borrowing_id']})'>change status</button>`
-        html += "<tr><td>" + userId + "</td><td>" + from + "</td><td>" + to + "</td><td>" + bookcopyId + "</td><td>" + status + "</td><td>" + bt + "</td></tr>";
+        let bt;
+        if(show === 'yes') {
+            bt = `<button onclick='changeStatus(${borrow['borrowing_id']})'>change status</button>`
+            html += "<tr><td>" + userId + "</td><td>" + bookcopyId + "</td><td>" + status + "</td><td>" + bt + "</td></tr>";
+        }
+        else {
+            html += "<tr><td>" + userId + "</td><td>" + bookcopyId + "</td><td>" + status + "</td></tr>";
+        }
     }
     html += "</table>";
     return html;
@@ -136,18 +146,17 @@ function changeStatus(id ){
 }
 
 function getBorrowedBooks(){
-    console.log("get Borrowed books");
+    $("#bookList").hide();
+    $("#librarianResults").show();
     let xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            let data = JSON.parse(xhr.responseText);
-
+            let html = createBorrowTable(JSON.parse(xhr.responseText), "no")
+            document.getElementById('librarianResults').innerHTML = html;
         } else if (xhr.status !== 200) {
-            console.log("getBorrowedBooks error :(");
+            console.log(xhr.responseText);
         }
     };
-    xhr.open('GET', 'http://localhost:8080/eLibraries/resource/borrowings/all?pdf=yes');
-    xhr.setRequestHeader("Accept", "application/json");
-    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.open('GET', 'http://localhost:8080/eLibraries/resource/borrowings/all');
     xhr.send();
 }
