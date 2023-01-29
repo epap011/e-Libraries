@@ -143,6 +143,9 @@ function geBookBorrowingPageBasedOnIsbn(isbn) {
                 document.getElementById("borrowButton").textContent = 'you already borrow this book';
             }
 
+
+            let destinations = '';
+            let dest_libraries = [];
             //Getting all the available libraries for this book & Update the map
             let librarians = JSON.parse(xhr.responseText);
             let libraries = document.getElementById("availableLibraries");
@@ -150,6 +153,8 @@ function geBookBorrowingPageBasedOnIsbn(isbn) {
             for (let i = 0; i < librarians.length; i++) {
                 let lat = librarians[i]["lat"];
                 let lon = librarians[i]["lon"];
+                destinations += lat + ',' + lon + ';';
+                dest_libraries.push(librarians[i]["libraryname"]);
                 let message = "Library Name: " + librarians[i]["libraryname"] +
                     "\nInfo: " + librarians[i]["libraryinfo"] +
                     "\n telephone: " + librarians[i]["telephone"] +
@@ -171,6 +176,22 @@ function geBookBorrowingPageBasedOnIsbn(isbn) {
 
             html += "</div></div><br><br>";
             libraries.innerHTML = html;
+
+            //Getting lat lon of user
+            let user_lat;
+            let user_lon;
+            request = new XMLHttpRequest();
+            request.open('GET', 'http://localhost:8080/eLibraries/resource/user/info', false);
+            request.send();
+            if(request.status === 200) {
+                let data = JSON.parse(request.responseText);
+                user_lat = data['lat'];
+                user_lon = data['lon'];
+                console.log(data);
+            }else {
+                console.log(request.responseText);
+            }
+            console.log(user_lon + ' ' +user_lat);
 
             request = new XMLHttpRequest();
             request.open('GET', 'http://localhost:8080/eLibraries/resource/borrowings/userId', false);
@@ -210,6 +231,33 @@ function geBookBorrowingPageBasedOnIsbn(isbn) {
             }else{
                 console.log("error in borrowings/userid resource");
             }
+
+            request = new XMLHttpRequest();
+            request.withCredentials = true;
+
+            let origin = user_lat + ',' + user_lon;
+            let librariesDistance = document.getElementById("availableLibrariesBasedOnMeter");
+            html = '';
+            request.addEventListener("readystatechange", function () {
+                if (this.readyState === this.DONE) {
+                    console.log(this.responseText);
+                    let data = JSON.parse(this.responseText);
+                    let distances = data['distances'];
+                    let durations = data['durations'];
+                    for (let i = 0; i < dest_libraries.length; i++) {
+                        console.log(dest_libraries[i]);
+                        html += '<h2>'+dest_libraries[i]+'</h2><br>';
+                        html += '<h4>Distance: ' + distances[0][i] + ' Duration: ' + durations[0][i] + '</h4><br><br>'
+                    }
+                    librariesDistance.innerHTML = html;
+                }
+            });
+
+            request.open("GET", "https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins="+origin+"&destinations="+destinations);
+            request.setRequestHeader("X-RapidAPI-Key", "7517e2e8f3msh250bed78beeb753p121e90jsna52c21fdbf03");
+            request.setRequestHeader("X-RapidAPI-Host", "trueway-matrix.p.rapidapi.com");
+            request.send();
+
             document.getElementById("borrowBookSection").style.visibility = 'visible';
         }
         else {
