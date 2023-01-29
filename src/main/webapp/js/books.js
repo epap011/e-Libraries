@@ -101,7 +101,7 @@ function geBookBorrowingPageBasedOnIsbn(isbn) {
 
             //Getting & Setting Book Information
             let bookInfoDiv = document.getElementById("borrowBookInfo");
-            const request = new XMLHttpRequest();
+            let request = new XMLHttpRequest();
             request.open('GET', 'http://localhost:8080/eLibraries/resource/books/isbn/'+isbn, false);
             request.send();
             if (request.status === 200) {
@@ -133,13 +133,13 @@ function geBookBorrowingPageBasedOnIsbn(isbn) {
                 document.getElementById("borrowButton").textContent = 'request for borrow';
                 document.getElementById("borrowButton").addEventListener("click",
                     function(){borrowRequest(isbn)}, false);
-            }else if(bookStatus == 'requested'){
+            }else if(bookStatus === 'requested'){
                 document.getElementById("borrowButton").textContent = 'you already request to borrow the book';
-            }else if(bookStatus == 'borrowed'){
+            }else if(bookStatus === 'borrowed'){
                 document.getElementById("borrowButton").textContent = 'return the book';
                 document.getElementById("borrowButton").addEventListener("click",
                     function(){returnRequest(isbn)}, false);
-            }else if(bookStatus == 'returned' || bookStatus == 'successEnd'){
+            }else if(bookStatus === 'returned' || bookStatus === 'successEnd'){
                 document.getElementById("borrowButton").textContent = 'you already borrow this book';
             }
 
@@ -171,10 +171,49 @@ function geBookBorrowingPageBasedOnIsbn(isbn) {
 
             html += "</div></div><br><br>";
             libraries.innerHTML = html;
+
+            request = new XMLHttpRequest();
+            request.open('GET', 'http://localhost:8080/eLibraries/resource/borrowings/userId', false);
+            request.send();
+            if(request.status === 200) {
+                let reviewFormVisibility = false;
+                let data = JSON.parse(request.responseText);
+                console.log("borrowings/userid = " + data);
+                for(let i = 0; i < data.length; i++) {
+                    let bor = data[i];
+                    console.log(bor);
+                    let bookId = bor['bookcopy_id'];
+                    if(bor['status'] === 'successEnd') {
+                        let request2 = new XMLHttpRequest();
+                        request2.open('GET', 'http://localhost:8080/eLibraries/resource/availability/copyId?id=' + bookId, false);
+                        request2.send();
+                        let data2 = JSON.parse(request2.responseText);
+                        console.log('data2:' + data2['isbn']);
+                        let dataIsbn = data2['isbn']
+                        console.log(typeof dataIsbn);
+                        console.log(typeof isbn);
+                        if(dataIsbn == isbn) {
+                            console.log('isbn: ' + dataIsbn + ' | status: ' + bor['status'] + ' ..  show reviews!');
+                            reviewFormVisibility = true;
+                            break;
+                        }
+                    }
+                }
+                if(reviewFormVisibility) {
+                    console.log('showing review form');
+                    $("#review-box").show();
+                }
+                else {
+                    console.log('hiding review form');
+                    $("#review-box").hide();
+                }
+            }else{
+                console.log("error in borrowings/userid resource");
+            }
             document.getElementById("borrowBookSection").style.visibility = 'visible';
         }
         else {
-            console.log("Error");
+            console.log("error in borrow-info/isbn resource");
         }
     };
 
@@ -210,7 +249,7 @@ function isBookAlreadyBorrowed(isbn) {
     var request = new XMLHttpRequest();
     request.open('GET', 'http://localhost:8080/eLibraries/resource/borrowings/userId', false);
     request.send();
-    if(request.status == 200){
+    if(request.status === 200){
         let data = JSON.parse(request.responseText);
         console.log(data);
         for(let i=0; i<data.length; i++) {
@@ -222,7 +261,7 @@ function isBookAlreadyBorrowed(isbn) {
             let data2 = JSON.parse(request2.responseText);
             console.log(data2);
             let dataIsbn = data2['isbn']
-            if(dataIsbn == isbn){
+            if(dataIsbn === isbn){
                 return [bor['status'],bor['bookcopy_id']]
             }
         }
