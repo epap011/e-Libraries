@@ -101,7 +101,7 @@ function geBookBorrowingPageBasedOnIsbn(isbn) {
 
             //Getting & Setting Book Information
             let bookInfoDiv = document.getElementById("borrowBookInfo");
-            const request = new XMLHttpRequest();
+            let request = new XMLHttpRequest();
             request.open('GET', 'http://localhost:8080/eLibraries/resource/books/isbn/'+isbn, false);
             request.send();
             if (request.status === 200) {
@@ -133,16 +133,19 @@ function geBookBorrowingPageBasedOnIsbn(isbn) {
                 document.getElementById("borrowButton").textContent = 'request for borrow';
                 document.getElementById("borrowButton").addEventListener("click",
                     function(){borrowRequest(isbn)}, false);
-            }else if(bookStatus == 'requested'){
+            }else if(bookStatus === 'requested'){
                 document.getElementById("borrowButton").textContent = 'you already request to borrow the book';
-            }else if(bookStatus == 'borrowed'){
+            }else if(bookStatus === 'borrowed'){
                 document.getElementById("borrowButton").textContent = 'return the book';
                 document.getElementById("borrowButton").addEventListener("click",
                     function(){returnRequest(isbn)}, false);
-            }else if(bookStatus == 'returned' || bookStatus == 'successEnd'){
+            }else if(bookStatus === 'returned' || bookStatus === 'successEnd'){
                 document.getElementById("borrowButton").textContent = 'you already borrow this book';
             }
 
+
+            let destinations = '';
+            let dest_libraries = [];
             //Getting all the available libraries for this book & Update the map
             let librarians = JSON.parse(xhr.responseText);
             let libraries = document.getElementById("availableLibraries");
@@ -150,6 +153,8 @@ function geBookBorrowingPageBasedOnIsbn(isbn) {
             for (let i = 0; i < librarians.length; i++) {
                 let lat = librarians[i]["lat"];
                 let lon = librarians[i]["lon"];
+                destinations += lat + ',' + lon + ';';
+                dest_libraries.push(librarians[i]["libraryname"]);
                 let message = "Library Name: " + librarians[i]["libraryname"] +
                     "\nInfo: " + librarians[i]["libraryinfo"] +
                     "\n telephone: " + librarians[i]["telephone"] +
@@ -171,10 +176,92 @@ function geBookBorrowingPageBasedOnIsbn(isbn) {
 
             html += "</div></div><br><br>";
             libraries.innerHTML = html;
+
+            //Getting lat lon of user
+            let user_lat;
+            let user_lon;
+            request = new XMLHttpRequest();
+            request.open('GET', 'http://localhost:8080/eLibraries/resource/user/info', false);
+            request.send();
+            if(request.status === 200) {
+                let data = JSON.parse(request.responseText);
+                user_lat = data['lat'];
+                user_lon = data['lon'];
+                console.log(data);
+            }else {
+                console.log(request.responseText);
+            }
+            console.log(user_lon + ' ' +user_lat);
+
+            request = new XMLHttpRequest();
+            request.open('GET', 'http://localhost:8080/eLibraries/resource/borrowings/userId', false);
+            request.send();
+            if(request.status === 200) {
+                let reviewFormVisibility = false;
+                let data = JSON.parse(request.responseText);
+                console.log("borrowings/userid = " + data);
+                for(let i = 0; i < data.length; i++) {
+                    let bor = data[i];
+                    console.log(bor);
+                    let bookId = bor['bookcopy_id'];
+                    if(bor['status'] === 'successEnd') {
+                        let request2 = new XMLHttpRequest();
+                        request2.open('GET', 'http://localhost:8080/eLibraries/resource/availability/copyId?id=' + bookId, false);
+                        request2.send();
+                        let data2 = JSON.parse(request2.responseText);
+                        console.log('data2:' + data2['isbn']);
+                        let dataIsbn = data2['isbn']
+                        console.log(typeof dataIsbn);
+                        console.log(typeof isbn);
+                        if(dataIsbn == isbn) {
+                            console.log('isbn: ' + dataIsbn + ' | status: ' + bor['status'] + ' ..  show reviews!');
+                            reviewFormVisibility = true;
+                            break;
+                        }
+                    }
+                }
+                if(reviewFormVisibility) {
+                    console.log('showing review form');
+                    $("#review-box").show();
+                }
+                else {
+                    console.log('hiding review form');
+                    $("#review-box").hide();
+                }
+            }else{
+                console.log("error in borrowings/userid resource");
+            }
+
+            request = new XMLHttpRequest();
+            request.withCredentials = true;
+
+            let origin = user_lat + ',' + user_lon;
+            let librariesDistance = document.getElementById("availableLibrariesBasedOnMeter");
+            html = '';
+            request.addEventListener("readystatechange", function () {
+                if (this.readyState === this.DONE) {
+                    console.log(this.responseText);
+                    let data = JSON.parse(this.responseText);
+                    let distances = data['distances'];
+                    let durations = data['durations'];
+                    for (let i = 0; i < dest_libraries.length; i++) {
+                        console.log(dest_libraries[i]);
+                        html += '<h2>'+dest_libraries[i]+'</h2><br>';
+                        html += '<h4>Distance: ' + distances[0][i] + ' Duration: ' + durations[0][i] + '</h4><br><br>'
+                    }
+                    librariesDistance.innerHTML = html;
+                }
+            });
+
+            request.open("GET", "https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins="+origin+"&destinations="+destinations);
+            request.setRequestHeader("X-RapidAPI-Key", "7517e2e8f3msh250bed78beeb753p121e90jsna52c21fdbf03");
+            request.setRequestHeader("X-RapidAPI-Host", "trueway-matrix.p.rapidapi.com");
+            request.send();
+
             document.getElementById("borrowBookSection").style.visibility = 'visible';
         }
         else {
-            console.log("Error");
+            console.log("error in borrow-info/isbn resource");
         }
     };
 
@@ -210,7 +297,7 @@ function isBookAlreadyBorrowed(isbn) {
     var request = new XMLHttpRequest();
     request.open('GET', 'http://localhost:8080/eLibraries/resource/borrowings/userId', false);
     request.send();
-    if(request.status == 200){
+    if(request.status === 200){
         let data = JSON.parse(request.responseText);
         console.log(data);
         for(let i=0; i<data.length; i++) {
@@ -222,7 +309,7 @@ function isBookAlreadyBorrowed(isbn) {
             let data2 = JSON.parse(request2.responseText);
             console.log(data2);
             let dataIsbn = data2['isbn']
-            if(dataIsbn == isbn){
+            if(dataIsbn === isbn){
                 return [bor['status'],bor['bookcopy_id']]
             }
         }
@@ -281,7 +368,33 @@ function borrowRequest(isbn){
 }
 
 function returnRequest(isbn){
-
+    var request = new XMLHttpRequest();
+    request.open('GET', 'http://localhost:8080/eLibraries/resource/borrowings/userId', false);
+    request.send();
+    if (request.status == 200) {
+        let booksAv = JSON.parse(request.responseText);
+        console.log(booksAv);
+        for(let i=0; i<booksAv.length; i++){
+            if(booksAv[i]['status']=='borrowed'){
+                var request2 = new XMLHttpRequest();
+                request2.open('GET', 'http://localhost:8080/eLibraries/resource/availability/copyId?id='+booksAv[i]['bookcopy_id'], false);
+                request2.send();
+                if(request2.status == 200) {
+                    let book2 = JSON.parse(request2.responseText);
+                    if (isbn == book2['isbn']) {
+                        var request2 = new XMLHttpRequest();
+                        request2.open('PUT', 'http://localhost:8080/eLibraries/resource/borrowings/status/user?id='+booksAv[i]['borrowing_id'], false);
+                        request2.send();
+                        return;
+                    }
+                }else{
+                    console.log("error in returnReq , 2");
+                }
+            }
+        }
+    }else{
+        console.log("error in returnReq , 1");
+    }
 }
 
 function setPosition(lat, lon){

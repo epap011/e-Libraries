@@ -96,8 +96,24 @@ public class Borrowings {
             return Response.status(Response.Status.OK).type("application/json").entity(json).build();
         } else {
                 return Response.status(Response.Status.BAD_REQUEST).type("application/json").entity("{\"error\":\"you cant change the status\"}").build();
-            }
         }
+    }
+
+    @PUT
+    @Path("/status/user")
+    @Produces({ MediaType.APPLICATION_JSON})
+    public Response changeStatusUser(@QueryParam("id") String id) throws SQLException, ClassNotFoundException {
+        Borrowing borrow = new EditBorrowingTable().databaseToBorrowing(Integer.parseInt(id));
+
+        int borId = borrow.getBorrowing_id();
+        String status = borrow.getStatus();
+
+        new EditBorrowingTable().updateBorrowing(borId , "returned");
+        String json = new Gson().toJson(borrow);
+        System.out.println(json);
+        return Response.status(Response.Status.OK).type("application/json").entity(json).build();
+
+    }
 
     @GET
     @Path("/userId")
