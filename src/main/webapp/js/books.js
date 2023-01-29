@@ -368,7 +368,33 @@ function borrowRequest(isbn){
 }
 
 function returnRequest(isbn){
-
+    var request = new XMLHttpRequest();
+    request.open('GET', 'http://localhost:8080/eLibraries/resource/borrowings/userId', false);
+    request.send();
+    if (request.status == 200) {
+        let booksAv = JSON.parse(request.responseText);
+        console.log(booksAv);
+        for(let i=0; i<booksAv.length; i++){
+            if(booksAv[i]['status']=='borrowed'){
+                var request2 = new XMLHttpRequest();
+                request2.open('GET', 'http://localhost:8080/eLibraries/resource/availability/copyId?id='+booksAv[i]['bookcopy_id'], false);
+                request2.send();
+                if(request2.status == 200) {
+                    let book2 = JSON.parse(request2.responseText);
+                    if (isbn == book2['isbn']) {
+                        var request2 = new XMLHttpRequest();
+                        request2.open('PUT', 'http://localhost:8080/eLibraries/resource/borrowings/status/user?id='+booksAv[i]['borrowing_id'], false);
+                        request2.send();
+                        return;
+                    }
+                }else{
+                    console.log("error in returnReq , 2");
+                }
+            }
+        }
+    }else{
+        console.log("error in returnReq , 1");
+    }
 }
 
 function setPosition(lat, lon){
