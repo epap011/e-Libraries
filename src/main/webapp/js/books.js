@@ -133,13 +133,13 @@ function geBookBorrowingPageBasedOnIsbn(isbn) {
                 document.getElementById("borrowButton").textContent = 'request for borrow';
                 document.getElementById("borrowButton").addEventListener("click",
                     function(){borrowRequest(isbn)}, false);
-            }else if(bookStatus === 'requested'){
+            }else if(bookStatus == 'requested'){
                 document.getElementById("borrowButton").textContent = 'you already request to borrow the book';
-            }else if(bookStatus === 'borrowed'){
+            }else if(bookStatus == 'borrowed'){
                 document.getElementById("borrowButton").textContent = 'return the book';
                 document.getElementById("borrowButton").addEventListener("click",
                     function(){returnRequest(isbn)}, false);
-            }else if(bookStatus === 'returned' || bookStatus === 'successEnd'){
+            }else if(bookStatus == 'returned' || bookStatus == 'successEnd'){
                 document.getElementById("borrowButton").textContent = 'you already borrow this book';
             }
 
@@ -309,7 +309,7 @@ function isBookAlreadyBorrowed(isbn) {
             let data2 = JSON.parse(request2.responseText);
             console.log(data2);
             let dataIsbn = data2['isbn']
-            if(dataIsbn === isbn){
+            if(dataIsbn == isbn){
                 return [bor['status'],bor['bookcopy_id']]
             }
         }

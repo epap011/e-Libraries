@@ -7,10 +7,10 @@ function addBook() {
 
     let xhr = new XMLHttpRequest();
     xhr.onload = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
+        if (xhr.readyState == 4 && xhr.status == 200) {
             console.log('book successfully added to the database');
 
-        } else if (xhr.status !== 200) {
+        } else if (xhr.status != 200) {
             console.log('ERROR: book not added to the database');
 
         }
